@@ -1,0 +1,3 @@
+include ':esc'
+include ':app'
+rootProject.name = "EasySQLiteCRUD"
