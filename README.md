@@ -8,7 +8,7 @@
 |Before|Simple Code|
 
 <h1 align="center">
-  MyLibSimpleSQLite - Simple SQLite
+  EasySQLiteCRUD - Simple SQLite
 </h1>
 
 <div align="center">
@@ -54,7 +54,7 @@ allprojects {
 // build.gradle app/module
 dependencies {
   ...
-  implementation 'com.github.gzeinnumer:MyLibSimpleSQLite:version'
+  implementation 'com.github.gzeinnumer:EasySQLiteCRUD:version'
 }
 ```
 
@@ -400,7 +400,7 @@ Entity New Verion
 ---
 # Example Code/App
 
-**Example App [Java](https://github.com/gzeinnumer/MyLibSQLiteExample) & [Kotlin](https://github.com/gzeinnumer/easySQLitecrudkt)**
+**Example App [Java](https://github.com/gzeinnumer/MyLibSQLiteExample) & [Kotlin](https://github.com/gzeinnumer/MyLibSQLitecrudkt)**
 
 [Sample Code And App](https://github.com/gzeinnumer/MyLibSQLiteExample)
 
