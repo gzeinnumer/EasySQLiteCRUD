@@ -400,7 +400,7 @@ Entity New Verion
 ---
 # Example Code/App
 
-**Example App [Java](https://github.com/gzeinnumer/MyLibSQLiteExample) & [Kotlin](https://github.com/gzeinnumer/MyLibSQLitecrudkt)**
+**Example App [Java](https://github.com/gzeinnumer/MyLibSQLiteExample) & [Kotlin](https://github.com/gzeinnumer/MyLibSimpleSQLitekt)**
 
 [Sample Code And App](https://github.com/gzeinnumer/MyLibSQLiteExample)
 
