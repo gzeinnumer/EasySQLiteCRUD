@@ -96,7 +96,7 @@ public class TestActivity extends AppCompatActivity {
         });
         binding.btnInsertOrUpdate2.setOnClickListener(view -> {
             boolean istrue = table1.insertOrUpdate2();
-            Log.d(TAG, "onCreate_14: " + istrue);
+            Log.d(TAG, "onCreate_15: " + istrue);
         });
     }
 }

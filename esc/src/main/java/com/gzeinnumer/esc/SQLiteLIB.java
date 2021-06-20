@@ -969,7 +969,8 @@ public abstract class SQLiteLIB<T> implements InterfaceDaoSQLite<T> {
             if (count == 0) {
                 ContentValues values = new ContentValues();
                 for (int i = 0; i < key.size(); i++) {
-                    values.put(key.get(i), value.get(i));
+                    if (!pKey.equals(key.get(i)))
+                        values.put(key.get(i), value.get(i));
                 }
                 long res = myDb.insert(tableName, null, values);
                 return res > 0;
@@ -1191,7 +1192,8 @@ public abstract class SQLiteLIB<T> implements InterfaceDaoSQLite<T> {
             } else {
                 ContentValues values = new ContentValues();
                 for (int i = 0; i < key.size(); i++) {
-                    values.put(key.get(i), value.get(i));
+                    if (!pKey.equals(key.get(i)))
+                        values.put(key.get(i), value.get(i));
                 }
                 long res = myDb.insert(tableName, null, values);
                 return res > 0;
