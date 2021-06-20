@@ -509,7 +509,7 @@ Entity New Verion
 
 **Example App [Java](https://github.com/gzeinnumer/EasySqliteCrudExample)**
 
-[Sample Code And App](https://github.com/gzeinnumer/MyLibSQLiteExample)
+[Sample Code And App](https://github.com/gzeinnumer/EasySqliteCrudExample)
 
 ---
 
