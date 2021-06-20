@@ -77,5 +77,13 @@ public class TestActivity extends AppCompatActivity {
             boolean queryUpdate = table1.queryResultUpdate();
             Log.d(TAG, "onCreate_10: " + queryUpdate);
         });
+        binding.btnRead3.setOnClickListener(view -> {
+            Table1 read3 = table1.read3();
+            Log.d(TAG, "onCreate_11: " + read3.getName());
+        });
+        binding.btnRead4.setOnClickListener(view -> {
+            Table1 read4 = table1.read4();
+            Log.d(TAG, "onCreate_12: " + read4.getName());
+        });
     }
 }

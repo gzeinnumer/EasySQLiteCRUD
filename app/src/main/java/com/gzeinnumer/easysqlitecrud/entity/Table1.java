@@ -123,6 +123,21 @@ public class Table1 extends SQLiteLIB<Table1> {
         return readData(Table1.class, sqLiteDatabase, condition);
     }
 
+    //type 2 SELECT * FROM table1 WHERE flag_active='1' LIMIT 1;
+    public Table1 read3() {
+        return readSingleData(Table1.class, sqLiteDatabase);
+    }
+
+    //type 2 SELECT * FROM table1 WHERE flag_active='1' LIMIT 1;
+    public Table1 read4() {
+        //String condition = "";                                      //read all
+        //String condition = "WHERE 1";                             //read all
+        String condition = "WHERE flag_active='1'";                 //for single condition
+        //String condition = "WHERE id='1' AND flag_Active='1'";    //for multi condition
+
+        return readSingleData(Table1.class, sqLiteDatabase, condition);
+    }
+
     public List<Table1> query(){
         String query ="SELECT table1.*, table2.name AS table2_name FROM table1 JOIN table2 ON table2.id_table1 = table1.id;";
         return queryData(Table1.class, sqLiteDatabase, query);

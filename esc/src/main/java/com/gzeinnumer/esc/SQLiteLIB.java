@@ -698,6 +698,149 @@ public abstract class SQLiteLIB<T> implements InterfaceDaoSQLite<T> {
         }
     }
 
+    /*
+    3.1.0
+     */
+    @Override
+    public T readSingleData(Class<T> clss, SQLiteDatabase myDb) {
+        return readSingleData(clss, myDb, "");
+    }
+
+    @Override
+    @SuppressLint("Recycle")
+    public T readSingleData(Class<T> clss, SQLiteDatabase myDb, String whereCondition) {
+        List<T> list = new ArrayList<>();
+
+        StringBuilder query = new StringBuilder("SELECT ");
+
+        String tableName = "";
+        if (clss.isAnnotationPresent(SQLiteTable.class)) {
+            SQLiteTable SQLiteTable = clss.getAnnotation(SQLiteTable.class);
+            if (SQLiteTable == null) {
+                logD("readData: Annotation SQLiteTable Not Found");
+                return list.get(0);
+            } else {
+                tableName = SQLiteTable.tableName();
+            }
+        } else {
+            logD("readData: Annotation SQLiteTable Not Found");
+            return list.get(0);
+        }
+
+        if (clss.getDeclaredFields().length == 0){
+            logD("readData: Annotation Entity Not Found");
+            return list.get(0);
+        }
+
+        if (myDb == null){
+            logD("readData: SQLiteDatabase is null object references");
+            return list.get(0);
+        }
+
+        String field = "";
+        for (Field f : clss.getDeclaredFields()) {
+            f.setAccessible(true);
+            PrimaryKeyTypeData primaryKeyTypeData = f.getAnnotation(PrimaryKeyTypeData.class);
+            if (primaryKeyTypeData != null) {
+                field = press(f.toString());
+                query.append(tableName).append(".").append(field);
+            }
+            IntegerTypeData _int = f.getAnnotation(IntegerTypeData.class);
+            if (_int != null) {
+                field = press(f.toString());
+                query.append(tableName).append(".").append(field);
+            }
+            VarcharTypeData varcharTypeData = f.getAnnotation(VarcharTypeData.class);
+            if (varcharTypeData != null) {
+                field = press(f.toString());
+                query.append(tableName).append(".").append(field);
+            }
+            TimeStampTypeData timestamp = f.getAnnotation(TimeStampTypeData.class);
+            if (timestamp != null) {
+                field = press(f.toString());
+                query.append(tableName).append(".").append(field);
+            }
+            DecimalTypeData decimalTypeData = f.getAnnotation(DecimalTypeData.class);
+            if (decimalTypeData != null){
+                field = press(f.toString());
+                query.append(tableName).append(".").append(field);
+            }
+            TextTypeData textTypeData = f.getAnnotation(TextTypeData.class);
+            if (textTypeData != null){
+                field = press(f.toString());
+                query.append(tableName).append(".").append(field);
+            }
+        }
+
+        if (query.length() > 0) {
+            query.setLength(query.length() - 2);
+        }
+
+        query.append(" FROM ").append(tableName);
+
+        if (whereCondition.length() > 0) {
+            query.append(" ").append(whereCondition);
+        }
+
+        query.append(" LIMIT 1;");
+
+        logDQuery(TAG, tableName+"_readData: "+query);
+
+        Cursor cursor;
+
+        cursor = myDb.rawQuery(query.toString(), null);
+
+        if (cursor.getCount() > 0) {
+            while (cursor.moveToNext()) {
+                HashMap<String, Object> hashMap = new HashMap<>();
+                for (Field f : clss.getDeclaredFields()) {
+                    f.setAccessible(true);
+                    PrimaryKeyTypeData primaryKeyTypeData = f.getAnnotation(PrimaryKeyTypeData.class);
+                    if (primaryKeyTypeData != null) {
+                        field = removeLast(press(f.toString()));
+                        hashMap.put(field, cursor.getInt(cursor.getColumnIndex(field)));
+                    }
+                    IntegerTypeData _int = f.getAnnotation(IntegerTypeData.class);
+                    if (_int != null) {
+                        field = removeLast(press(f.toString()));
+                        hashMap.put(field, cursor.getInt(cursor.getColumnIndex(field)));
+                    }
+                    VarcharTypeData varcharTypeData = f.getAnnotation(VarcharTypeData.class);
+                    if (varcharTypeData != null) {
+                        field = removeLast(press(f.toString()));
+                        hashMap.put(field, cursor.getString(cursor.getColumnIndex(field)));
+                    }
+                    TimeStampTypeData timestamp = f.getAnnotation(TimeStampTypeData.class);
+                    if (timestamp != null) {
+                        field = removeLast(press(f.toString()));
+                        hashMap.put(field, cursor.getString(cursor.getColumnIndex(field)));
+                    }
+                    DecimalTypeData decimalTypeData = f.getAnnotation(DecimalTypeData.class);
+                    if (decimalTypeData != null){
+                        field = removeLast(press(f.toString()));
+                        hashMap.put(field, cursor.getDouble(cursor.getColumnIndex(field)));
+                    }
+                    TextTypeData textTypeData = f.getAnnotation(TextTypeData.class);
+                    if (textTypeData != null){
+                        field = removeLast(press(f.toString()));
+                        hashMap.put(field, cursor.getString(cursor.getColumnIndex(field)));
+                    }
+                }
+
+                Gson gson = new Gson();
+
+                JsonElement jsonElement = gson.toJsonTree(hashMap);
+                list.add(gson.fromJson(jsonElement, (Type) clss));
+            }
+        }
+
+        cursor.close();
+        return list.get(0);
+    }
+    /*
+    3.1.0
+     */
+
     private String press(String s) {
         return s.substring(s.lastIndexOf('.') + 1) + ", ";
     }
