@@ -492,6 +492,7 @@ Entity New Verion
  & [Table2.java](https://github.com/gzeinnumer/EasySQLiteCRUD/blob/master/app/src/main/java/com/gzeinnumer/easysqlitecrud/entity/Table2.java)
 
 [DatabaseHelper.java](https://github.com/gzeinnumer/EasySQLiteCRUD/blob/master/app/src/main/java/com/gzeinnumer/easysqlitecrud/helper/DatabaseHelper.java)
+ & [DBInstance.java](https://github.com/gzeinnumer/EasySQLiteCRUD/blob/master/app/src/main/java/com/gzeinnumer/easysqlitecrud/helper/DBInstance.java)
  & [TestActivity.java](https://github.com/gzeinnumer/EasySQLiteCRUD/blob/master/app/src/main/java/com/gzeinnumer/easysqlitecrud/TestActivity.java)
  & [activity_test.xml](https://github.com/gzeinnumer/EasySQLiteCRUD/blob/master/app/src/main/res/layout/activity_test.xml)
  & [gradle](https://github.com/gzeinnumer/EasySQLiteCRUD/blob/master/app/build.gradle)
