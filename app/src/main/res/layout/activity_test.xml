@@ -116,10 +116,6 @@
                     android:id="@+id/btn_insert_or_update"
                     style="@style/MyButtonContained"
                     android:text="Insert Or Update" />
-                <Button
-                    android:id="@+id/btn_insert_or_update2"
-                    style="@style/MyButtonContained"
-                    android:text="Insert Or Update2" />
             </LinearLayout>
         </LinearLayout>
 
