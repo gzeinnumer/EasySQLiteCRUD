@@ -65,27 +65,27 @@
                 <Button
                     android:id="@+id/btn_count"
                     style="@style/MyButtonContained"
-                    android:text="Count" />
+                    android:text="Count(All)" />
 
                 <Button
                     android:id="@+id/btn_count2"
                     style="@style/MyButtonContained"
-                    android:text="Count2" />
+                    android:text="Count(Condition)" />
 
                 <Button
                     android:id="@+id/btn_count3"
                     style="@style/MyButtonContained"
-                    android:text="Count3" />
+                    android:text="Count(Query)" />
 
                 <Button
                     android:id="@+id/btn_read"
                     style="@style/MyButtonContained"
-                    android:text="Read" />
+                    android:text="Read(All)" />
 
                 <Button
                     android:id="@+id/btn_read2"
                     style="@style/MyButtonContained"
-                    android:text="Read2" />
+                    android:text="Read(Condition)" />
 
                 <Button
                     android:id="@+id/btn_query"
@@ -97,6 +97,29 @@
                     style="@style/MyButtonContained"
                     android:text="Query Result Update" />
 
+                <Button
+                    android:id="@+id/btn_read3"
+                    style="@style/MyButtonContained"
+                    android:text="ReadSingleData" />
+
+                <Button
+                    android:id="@+id/btn_read4"
+                    style="@style/MyButtonContained"
+                    android:text="ReadSingleData(Query)" />
+
+                <Button
+                    android:id="@+id/btn_insert_or_ignore"
+                    style="@style/MyButtonContained"
+                    android:text="Insert Or Ignore" />
+
+                <Button
+                    android:id="@+id/btn_insert_or_update"
+                    style="@style/MyButtonContained"
+                    android:text="Insert Or Update" />
+                <Button
+                    android:id="@+id/btn_insert_or_update2"
+                    style="@style/MyButtonContained"
+                    android:text="Insert Or Update2" />
             </LinearLayout>
         </LinearLayout>
 

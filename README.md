@@ -12,7 +12,7 @@
 </h1>
 
 <div align="center">
-    <a><img src="https://img.shields.io/badge/Version-3.0.0-brightgreen.svg?style=flat"></a>
+    <a><img src="https://img.shields.io/badge/Version-3.1.0-brightgreen.svg?style=flat"></a>
     <a><img src="https://img.shields.io/badge/ID-gzeinnumer-blue.svg?style=flat"></a>
     <a><img src="https://img.shields.io/badge/Java-Suport-green?logo=java&style=flat"></a>
     <a><img src="https://img.shields.io/badge/Kotlin-Suport-green?logo=kotlin&style=flat"></a>
@@ -69,6 +69,9 @@ dependencies {
 - [x] [7. Read](#7-read)
 - [x] [8. Query Data](#8-query-data) for Complex Query. return List.
 - [x] [9. Query Result](#9-query-result) return true/false.
+- [x] [10. Read Single Data](#10-read-single-data)
+- [x] [11. Insert Or Ignore](#11-insert-or-ignore)
+- [x] [12. Insert Or Update](#12-insert-or-update)
 - [ ] Create Table
 
 ---
@@ -375,6 +378,110 @@ public class Table1 extends SQLiteLIB<Table1> {
 **Notes :**
 You can use it to excecute `update` or `delete` query and give you `true/false` as return.
 
+#
+### 10. Read Single Data
+> Lets see [Boilerplate Code Read Single Data](https://github.com/gzeinnumer/EasySQLiteCRUD/blob/master/README_Read_Single.md)
+
+> Simple Code
+```java
+@SQLiteTable(tableName = "table1")
+public class Table1 extends SQLiteLIB<Table1> {
+
+    ...
+
+    //type 1 SELECT * FROM table1 LIMIT 1;
+    public Table1 read3() {
+        return readSingleData(Table1.class, sqLiteDatabase);
+    }
+
+    //type 2 SELECT * FROM table1 WHERE flag_active='1' LIMIT 1;
+    public Table1 read4() {
+        //String condition = "";                                    //read single data
+        //String condition = "WHERE 1";                             //read single data
+        String condition = "WHERE flag_active='1'";                 //for single condition
+        //String condition = "WHERE id='1' AND flag_Active='1'";    //for multi condition
+
+        return readSingleData(Table1.class, sqLiteDatabase, condition);
+    }
+}
+```
+**Notes :**
+You have to validate result is null or not.
+```java
+Table1 read3 = table1.read3();
+if (read3!=null)
+    Log.d(TAG, "onCreate_12: " + read3.getName());
+else
+    Log.d(TAG, "onCreate_12: " + "null");
+```
+
+#
+### 11. Insert Or Ignore
+> Lets see [Boilerplate Code Insert Or Ignore](https://github.com/gzeinnumer/EasySQLiteCRUD/blob/master/README_Insert_Or_Ignore.md)
+
+> Simple Code
+```java
+@SQLiteTable(tableName = "table1")
+public class Table1 extends SQLiteLIB<Table1> {
+
+    ...
+
+    //INSERT INTO table1 (name, rating, desc, flag_active, created_at) VALUES ('Zein', '10.0.', 'Android Programmer', '1', '12-12-2020');
+    public boolean insertOrIgnore() {
+        Table1 data = new Table1();
+        data.setId(6); //important line, please set your id first
+        data.setName("Zein");
+        data.setRating(10.0);
+        data.setDesc("Android Programmer");
+        data.setFlag_active(1);
+        data.setCreated_at("12-12-2020");
+
+        return insertDataOrIgnore(Table1.class, sqLiteDatabase, data);
+    }
+}
+```
+**Notes :**
+You can use it to excecute `insert` or `ignore` and give you `true/false` as return. `true` = inserted, `false` = ignored.
+
+#
+### 12. Insert Or Update
+> Lets see [Boilerplate Code Insert Or Update](https://github.com/gzeinnumer/EasySQLiteCRUD/blob/master/README_Insert_Or_Update.md)
+
+> Simple Code
+```java
+@SQLiteTable(tableName = "table1")
+public class Table1 extends SQLiteLIB<Table1> {
+
+    ...
+
+    //INSERT INTO table1 (name, rating, desc, flag_active, created_at) VALUES ('Name Update', '1.6.', 'Desc Update', '1', '12-12-2020');
+    //or
+    //UPDATE table1 SET name='Name Update', rating='1.6', desc='Desc Update', flag_active='1', created_at='12-12-2020' WHERE id='7';
+    public boolean insertOrUpdate() {
+        Table1 data = new Table1();
+        data.setId(7);
+        data.setName("Name Update");
+        data.setRating(1.6);
+        data.setDesc("Desc Update");
+        data.setFlag_active(1);
+        data.setCreated_at("12-12-2020");
+
+        return insertDataOrUpdate(Table1.class, sqLiteDatabase, data);
+    }
+}
+```
+**Notes :**
+You can use it to excecute `insert` or `update` and give you `true/false` as return.
+
+If you want to ignore some column to update with set value to `null`. example:
+```java
+data.setFlag_active(1); //column flag_active will be update to 1
+data.setCreated_at(null); //column created_at will be ingore to update
+
+return insertDataOrUpdate(Table1.class, sqLiteDatabase, data);
+```
+If you want to update value to `null` use this [Query Result](https://github.com/gzeinnumer/EasySQLiteCRUD#9-query-result)
+
 ---
 
 Entity Old Verision
@@ -434,6 +541,10 @@ You can combine this library with [MyLibSQLiteBuilder](https://github.com/gzeinn
   - Bug Fixing
 - **3.0.0**
   - Support SDK 16
+- **3.1.0**
+  - Read Single Data
+  - Insert Or Ignore
+  - Insert Or Update
 
 ---
 # Contribution

@@ -123,6 +123,21 @@ public class Table1 extends SQLiteLIB<Table1> {
         return readData(Table1.class, sqLiteDatabase, condition);
     }
 
+    //type 1 SELECT * FROM table1 LIMIT 1;
+    public Table1 read3() {
+        return readSingleData(Table1.class, sqLiteDatabase);
+    }
+
+    //type 2 SELECT * FROM table1 WHERE flag_active='1' LIMIT 1;
+    public Table1 read4() {
+        //String condition = "";                                    //read single data
+        //String condition = "WHERE 1";                             //read single data
+        String condition = "WHERE flag_active='1'";                 //for single condition
+        //String condition = "WHERE id='1' AND flag_Active='1'";    //for multi condition
+
+        return readSingleData(Table1.class, sqLiteDatabase, condition);
+    }
+
     public List<Table1> query(){
         String query ="SELECT table1.*, table2.name AS table2_name FROM table1 JOIN table2 ON table2.id_table1 = table1.id;";
         return queryData(Table1.class, sqLiteDatabase, query);
@@ -131,6 +146,61 @@ public class Table1 extends SQLiteLIB<Table1> {
     public boolean queryResultUpdate() {
         String query = "UPDATE table1 SET flag_Active='2' WHERE id='1'";
         return queryResult(Table1.class, sqLiteDatabase, query);
+    }
+
+    //INSERT INTO table1 (name, rating, desc, flag_active, created_at) VALUES ('Zein', '10.0.', 'Android Programmer', '1', '12-12-2020');
+    public boolean insertOrIgnore() {
+        Table1 data = new Table1();
+        data.setId(6);
+        data.setName("Zein");
+        data.setRating(10.0);
+        data.setDesc("Android Programmer");
+        data.setFlag_active(1);
+        data.setCreated_at("12-12-2020");
+
+        return insertDataOrIgnore(Table1.class, sqLiteDatabase, data);
+    }
+
+    //INSERT INTO table1 (name, rating, desc, flag_active, created_at) VALUES ('Name Update', '1.6.', 'Desc Update', '1', '12-12-2020');
+    //or
+    //UPDATE table1 SET name='Name Update', rating='1.6', desc='Desc Update', flag_active='1', created_at='12-12-2020' WHERE id='7';
+    public boolean insertOrUpdate() {
+        Table1 data = new Table1();
+        data.setId(7);
+        data.setName("Name Update");
+        data.setRating(1.6);
+        data.setDesc("Desc Update");
+        data.setFlag_active(10);
+        data.setCreated_at("12-12-2020");
+
+        String[] fieldToUpdate = new String[]{
+                "name",
+                "rating",
+                "desc",
+                "flag_active",
+                "created_at"
+        }; // put all field that you want to update
+
+        return insertDataOrUpdate(Table1.class, sqLiteDatabase, data, fieldToUpdate);
+    }
+    public boolean insertOrUpdate2() {
+        Table1 data = new Table1();
+        data.setId(7);
+        data.setName("Name Update 1");
+        data.setRating(1.66);
+        data.setDesc("Desc Update 1");
+        data.setFlag_active(100);
+        data.setCreated_at("12-12-2020 1");
+
+        String[] fieldToUpdate = new String[]{
+                "name",
+                "rating",
+                "desc",
+                "flag_active",
+                "created_at"
+        }; // put all field that you want to update
+
+        return insertDataOrUpdate(Table1.class, sqLiteDatabase, data,fieldToUpdate);
     }
 
     public int getId() {

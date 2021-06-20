@@ -15,4 +15,8 @@ public interface InterfaceDaoSQLite<T> {
     boolean insertData(Class<T> clss, SQLiteDatabase myDb, T data);
     boolean updatedData(Class<T> clss, SQLiteDatabase myDb, T data, String whereCondition, String[] filedToUpdate);
     int queryCount(Class<T> clss, SQLiteDatabase myDb, String query);
+    T readSingleData(Class<T> clss, SQLiteDatabase myDb);
+    T readSingleData(Class<T> clss, SQLiteDatabase myDb, String condition);
+    boolean insertDataOrIgnore(Class<T> clss, SQLiteDatabase myDb, T data);
+    boolean insertDataOrUpdate(Class<T> clss, SQLiteDatabase myDb, T data, String[] fieldToUpdate);
 }

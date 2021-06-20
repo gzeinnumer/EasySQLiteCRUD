@@ -8,11 +8,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.gzeinnumer.easysqlitecrud.databinding.ActivityTestBinding;
 import com.gzeinnumer.easysqlitecrud.entity.Table1;
-import com.gzeinnumer.easysqlitecrud.helper.DatabaseHelper;
-import com.gzeinnumer.easysqlitecrud.helper.GblVariabel;
+import com.gzeinnumer.easysqlitecrud.helper.DBInstance;
 
 import java.util.List;
-
 
 public class TestActivity extends AppCompatActivity {
 
@@ -26,12 +24,9 @@ public class TestActivity extends AppCompatActivity {
         binding = ActivityTestBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        GblVariabel.initDb(getApplicationContext());
+        SQLiteDatabase sqLiteDatabase = DBInstance.getDataBase(getApplicationContext());
 
-        DatabaseHelper databaseHelper = new DatabaseHelper(getApplicationContext());
-        SQLiteDatabase database = databaseHelper.getWritableDatabase();
-
-        Table1 table1 = new Table1(database);
+        Table1 table1 = new Table1(sqLiteDatabase);
 
         binding.btnInsert.setOnClickListener(view -> {
             boolean istrue = table1.insert();
@@ -76,6 +71,32 @@ public class TestActivity extends AppCompatActivity {
         binding.btnQueryResultUpdate.setOnClickListener(view -> {
             boolean queryUpdate = table1.queryResultUpdate();
             Log.d(TAG, "onCreate_10: " + queryUpdate);
+        });
+        binding.btnRead3.setOnClickListener(view -> {
+            Table1 read3 = table1.read3();
+            if (read3!=null)
+                Log.d(TAG, "onCreate_11: " + read3.getName());
+            else
+                Log.d(TAG, "onCreate_11: " + "null");
+        });
+        binding.btnRead4.setOnClickListener(view -> {
+            Table1 read4 = table1.read4();
+            if (read4!=null)
+                Log.d(TAG, "onCreate_12: " + read4.getName());
+            else
+                Log.d(TAG, "onCreate_12: " + "null");
+        });
+        binding.btnInsertOrIgnore.setOnClickListener(view -> {
+            boolean istrue = table1.insertOrIgnore();
+            Log.d(TAG, "onCreate_13: " + istrue);
+        });
+        binding.btnInsertOrUpdate.setOnClickListener(view -> {
+            boolean istrue = table1.insertOrUpdate();
+            Log.d(TAG, "onCreate_14: " + istrue);
+        });
+        binding.btnInsertOrUpdate2.setOnClickListener(view -> {
+            boolean istrue = table1.insertOrUpdate2();
+            Log.d(TAG, "onCreate_15: " + istrue);
         });
     }
 }
