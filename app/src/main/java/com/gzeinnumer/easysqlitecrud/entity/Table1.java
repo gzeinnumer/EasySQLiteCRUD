@@ -187,13 +187,17 @@ public class Table1 extends SQLiteLIB<Table1> {
         Table1 data = new Table1();
         data.setId(7);
         data.setName("Name Update 1");
-//        data.setRating(1.66);
-//        data.setDesc("Desc Update 1");
-//        data.setFlag_active(100);
-//        data.setCreated_at("12-12-2020 1");
+        data.setRating(1.66);
+        data.setDesc("Desc Update 1");
+        data.setFlag_active(100);
+        data.setCreated_at("12-12-2020 1");
 
         String[] fieldToUpdate = new String[]{
-                "name"
+                "name",
+                "rating",
+                "desc",
+                "flag_active",
+                "created_at"
         }; // put all field that you want to update
 
         return insertDataOrUpdate(Table1.class, sqLiteDatabase, data,fieldToUpdate);
