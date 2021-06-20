@@ -380,7 +380,7 @@ You can use it to excecute `update` or `delete` query and give you `true/false` 
 
 #
 ### 10. Read Single Data
-> Lets see [Boilerplate Code Query Result](https://github.com/gzeinnumer/EasySQLiteCRUD/blob/master/README_Read_Single.md)
+> Lets see [Boilerplate Code Read Single Data](https://github.com/gzeinnumer/EasySQLiteCRUD/blob/master/README_Read_Single.md)
 
 > Simple Code
 ```java
@@ -417,7 +417,7 @@ else
 
 #
 ### 11. Insert Or Ignore
-> Lets see [Boilerplate Code Query Result](https://github.com/gzeinnumer/EasySQLiteCRUD/blob/master/README_Insert_Or_Ignore.md)
+> Lets see [Boilerplate Code Insert Or Ignore](https://github.com/gzeinnumer/EasySQLiteCRUD/blob/master/README_Insert_Or_Ignore.md)
 
 > Simple Code
 ```java
@@ -441,11 +441,11 @@ public class Table1 extends SQLiteLIB<Table1> {
 }
 ```
 **Notes :**
-You can use it to excecute `insert` or `ignore` and give you `true/false` as return.
+You can use it to excecute `insert` or `ignore` and give you `true/false` as return. `true` = inserted, `false` = ignored.
 
 #
 ### 12. Insert Or Update
-> Lets see [Boilerplate Code Query Result](https://github.com/gzeinnumer/EasySQLiteCRUD/blob/master/README_Insert_Or_Update.md)
+> Lets see [Boilerplate Code Insert Or Update](https://github.com/gzeinnumer/EasySQLiteCRUD/blob/master/README_Insert_Or_Update.md)
 
 > Simple Code
 ```java
@@ -480,7 +480,7 @@ data.setCreated_at(null); //column created_at will be ingore to update
 
 return insertDataOrUpdate(Table1.class, sqLiteDatabase, data);
 ```
-If you want to update value to null use this (Query Result)[https://github.com/gzeinnumer/EasySQLiteCRUD#9-query-result]
+If you want to update value to `null` use this [Query Result](https://github.com/gzeinnumer/EasySQLiteCRUD#9-query-result)
 
 ---
 

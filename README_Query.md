@@ -10,7 +10,6 @@ public class Table1_OLD {
         String query ="SELECT table1.*, table2.name AS table2_name FROM table1 JOIN table2 ON table2.id_table1 = table1.id;";
         Cursor cursor = GblVariabel.myDb.rawQuery(query, null);
         if (cursor.getCount() > 0) {
-            cursor.moveToFirst();
             while (cursor.moveToNext()){
                 Table1_OLD data = new Table1_OLD();
                 data.id = cursor.getInt(cursor.getColumnIndex(this.KEY_ID));

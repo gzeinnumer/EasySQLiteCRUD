@@ -10,7 +10,7 @@ public class Table1_OLD {
         cursor = GblVariabel.myDb.rawQuery("SELECT * FROM table1;", null);
         if(cursor.getCount() > 0){
             while (cursor.moveToNext()){
-                Table_1 current = new Table_1();
+                Table1_OLD current = new Table1_OLD();
                 current.id = cursor.getInt(cursor.getColumnIndex(this.KEY_ID));
                 current.name = cursor.getString(cursor.getColumnIndex(this.KEY_NAME));
                 current.rating = cursor.getInt(cursor.getColumnIndex(this.KEY_RATING));
