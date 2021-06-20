@@ -15,7 +15,7 @@ public class Table1_OLD {
 
         int count = 0;
         try {
-            Cursor cursor = GblVariabel.myDb.rawQuery("SELECT COUNT(*) FROM table1 where id='1'", null);
+            Cursor cursor = GblVariabel.myDb.rawQuery("SELECT COUNT(*) FROM table1 WHERE id='1'", null);
             count = cursor.getCount();
             cursor.close();
         } catch (Exception e){

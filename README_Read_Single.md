@@ -7,7 +7,7 @@ public class Table1_OLD {
     public Table1_OLD readSingleData(){
         Cursor cursor;
         Table1_OLD current = new Table1_OLD();
-        cursor = GblVariabel.myDb.rawQuery("SELECT * FROM table1;", null);
+        cursor = GblVariabel.myDb.rawQuery("SELECT * FROM table1 WHERE id='1';", null);
         if(cursor.getCount() > 0){
             cursor.moveToFirst();
             current.id = cursor.getInt(cursor.getColumnIndex(this.KEY_ID));

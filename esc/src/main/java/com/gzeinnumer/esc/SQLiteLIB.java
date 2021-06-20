@@ -875,19 +875,19 @@ public abstract class SQLiteLIB<T> implements InterfaceDaoSQLite<T> {
             PrimaryKeyTypeData primaryKeyTypeData = f.getAnnotation(PrimaryKeyTypeData.class);
             if (primaryKeyTypeData != null) {
 //                if (!primaryKeyTypeData.autoGenerate()) {
-                    field = removeLast(press(f.toString()));
-                    key.add(field);
-                    pKey = field;
-                    try {
-                        if (f.get(data) != null) {
-                            value.add(String.valueOf(f.get(data)));
-                            pKeyValue = String.valueOf(f.get(data));
-                        } else
-                            value.add(null);
-                    } catch (IllegalAccessException e) {
-                        e.printStackTrace();
-                        logD("insertDataOrIgnore: " + e.getMessage());
-                    }
+                field = removeLast(press(f.toString()));
+                key.add(field);
+                pKey = field;
+                try {
+                    if (f.get(data) != null) {
+                        value.add(String.valueOf(f.get(data)));
+                        pKeyValue = String.valueOf(f.get(data));
+                    } else
+                        value.add(null);
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                    logD("insertDataOrIgnore: " + e.getMessage());
+                }
 //                }
             }
             IntegerTypeData _int = f.getAnnotation(IntegerTypeData.class);
@@ -984,7 +984,7 @@ public abstract class SQLiteLIB<T> implements InterfaceDaoSQLite<T> {
     }
 
     @Override
-    public boolean insertDataOrUpdate(Class<T> clss, SQLiteDatabase myDb, T data) {
+    public boolean insertDataOrUpdate(Class<T> clss, SQLiteDatabase myDb, T data, String[] fieldToUpdate) {
         String tableName = "";
         if (clss.isAnnotationPresent(SQLiteTable.class)) {
             SQLiteTable SQLiteTable = clss.getAnnotation(SQLiteTable.class);
@@ -1009,8 +1009,13 @@ public abstract class SQLiteLIB<T> implements InterfaceDaoSQLite<T> {
             return false;
         }
 
+        ArrayList<String> fields = new ArrayList<>(Arrays.asList(fieldToUpdate));
+
         List<String> value = new ArrayList<>();
         List<String> key = new ArrayList<>();
+
+        List<String> valueUpdate = new ArrayList<>();
+        List<String> keyUpdate = new ArrayList<>();
 
         String field = "";
         String pKey = "";
@@ -1020,10 +1025,10 @@ public abstract class SQLiteLIB<T> implements InterfaceDaoSQLite<T> {
             PrimaryKeyTypeData primaryKeyTypeData = f.getAnnotation(PrimaryKeyTypeData.class);
             if (primaryKeyTypeData != null) {
                 field = removeLast(press(f.toString()));
-                key.add(field);
                 pKey = field;
                 try {
                     if (f.get(data) != null) {
+                        key.add(field);
                         value.add(String.valueOf(f.get(data)));
                         pKeyValue = String.valueOf(f.get(data));
                     }
@@ -1031,83 +1036,163 @@ public abstract class SQLiteLIB<T> implements InterfaceDaoSQLite<T> {
                     e.printStackTrace();
                     logD("insertDataOrUpdate: " + e.getMessage());
                 }
+                if (fields.contains(field)) {
+                    try {
+                        if (f.get(data) != null) {
+                            keyUpdate.add(field);
+                            valueUpdate.add(String.valueOf(f.get(data)));
+                            pKeyValue = String.valueOf(f.get(data));
+                        }
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                        logD("insertDataOrUpdate: " + e.getMessage());
+                    }
+                }
             }
             IntegerTypeData _int = f.getAnnotation(IntegerTypeData.class);
             if (_int != null) {
                 field = removeLast(press(f.toString()));
-                key.add(field);
                 try {
-                    if (f.get(data) != null)
+                    if (f.get(data) != null) {
+                        key.add(field);
                         value.add(String.valueOf(f.get(data)));
+                    }
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                     logD("insertDataOrUpdate: " + e.getMessage());
+                }
+
+                if (fields.contains(field)) {
+                    try {
+                        if (f.get(data) != null) {
+                            keyUpdate.add(field);
+                            valueUpdate.add(String.valueOf(f.get(data)));
+                        }
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                        logD("insertDataOrUpdate: " + e.getMessage());
+                    }
                 }
             }
             VarcharTypeData varcharTypeData = f.getAnnotation(VarcharTypeData.class);
             if (varcharTypeData != null) {
                 field = removeLast(press(f.toString()));
-                key.add(field);
                 try {
-                    if (f.get(data) != null)
+                    if (f.get(data) != null) {
+                        key.add(field);
                         value.add(String.valueOf(f.get(data)));
+                    }
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                     logD("insertDataOrUpdate: " + e.getMessage());
+                }
+                if (fields.contains(field)) {
+                    try {
+                        if (f.get(data) != null) {
+                            keyUpdate.add(field);
+                            valueUpdate.add(String.valueOf(f.get(data)));
+                        }
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                        logD("insertDataOrUpdate: " + e.getMessage());
+                    }
                 }
             }
             TimeStampTypeData timestamp = f.getAnnotation(TimeStampTypeData.class);
             if (timestamp != null) {
                 field = removeLast(press(f.toString()));
-                key.add(field);
                 try {
-                    if (f.get(data) != null)
+                    if (f.get(data) != null) {
+                        key.add(field);
                         value.add(String.valueOf(f.get(data)));
+                    }
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                     logD("insertDataOrUpdate: " + e.getMessage());
+                }
+
+                if (fields.contains(field)) {
+                    try {
+                        if (f.get(data) != null) {
+                            keyUpdate.add(field);
+                            valueUpdate.add(String.valueOf(f.get(data)));
+                        }
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                        logD("insertDataOrUpdate: " + e.getMessage());
+                    }
                 }
             }
             DecimalTypeData decimalTypeData = f.getAnnotation(DecimalTypeData.class);
             if (decimalTypeData != null) {
                 field = removeLast(press(f.toString()));
-                key.add(field);
                 try {
-                    if (f.get(data) != null)
+                    if (f.get(data) != null) {
+                        key.add(field);
                         value.add(String.valueOf(f.get(data)));
+                    }
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                     logD("insertDataOrUpdate: " + e.getMessage());
+                }
+
+                if (fields.contains(field)) {
+                    try {
+                        if (f.get(data) != null) {
+                            keyUpdate.add(field);
+                            valueUpdate.add(String.valueOf(f.get(data)));
+                        }
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                        logD("insertDataOrUpdate: " + e.getMessage());
+                    }
                 }
             }
             TextTypeData textTypeData = f.getAnnotation(TextTypeData.class);
             if (textTypeData != null) {
                 field = removeLast(press(f.toString()));
-                key.add(field);
                 try {
-                    if (f.get(data) != null)
+                    if (f.get(data) != null) {
+                        key.add(field);
                         value.add(String.valueOf(f.get(data)));
+                    }
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                     logD("insertDataOrUpdate: " + e.getMessage());
+                }
+
+                if (fields.contains(field)) {
+                    try {
+                        if (f.get(data) != null) {
+                            keyUpdate.add(field);
+                            valueUpdate.add(String.valueOf(f.get(data)));
+                        }
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                        logD("insertDataOrUpdate: " + e.getMessage());
+                    }
                 }
             }
         }
 
         try {
-            ContentValues values = new ContentValues();
-            for (int i = 0; i < key.size(); i++) {
-                values.put(key.get(i), value.get(i));
-            }
             String query = "SELECT COUNT(" + pKey + ") FROM " + tableName + " WHERE " + pKey + "='" + pKeyValue + "';";
 
             int count = (int) DatabaseUtils.longForQuery(myDb, query, null);
 
             if (count > 0) {
-                String whereCondition = "" + pKey + "='" + pKeyValue + "'";;
+                String whereCondition = "" + pKey + "='" + pKeyValue + "'";
+                ContentValues values = new ContentValues();
+                for (int i = 0; i < keyUpdate.size(); i++) {
+                    values.put(keyUpdate.get(i), valueUpdate.get(i));
+                }
                 long res = myDb.update(tableName, values, whereCondition, new String[]{});
                 return res > 0;
             } else {
+                ContentValues values = new ContentValues();
+                for (int i = 0; i < key.size(); i++) {
+                    values.put(key.get(i), value.get(i));
+                }
                 long res = myDb.insert(tableName, null, values);
                 return res > 0;
             }
