@@ -463,10 +463,18 @@ public class Table1 extends SQLiteLIB<Table1> {
         data.setName("Name Update");
         data.setRating(1.6);
         data.setDesc("Desc Update");
-        data.setFlag_active(1);
+        data.setFlag_active(10);
         data.setCreated_at("12-12-2020");
 
-        return insertDataOrUpdate(Table1.class, sqLiteDatabase, data);
+        String[] fieldToUpdate = new String[]{
+                "name",
+                "rating",
+                "desc",
+                "flag_active",
+                "created_at"
+        }; // put all field that you want to update
+
+        return insertDataOrUpdate(Table1.class, sqLiteDatabase, data, fieldToUpdate);
     }
 }
 ```
