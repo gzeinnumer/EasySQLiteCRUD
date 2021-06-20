@@ -43,4 +43,6 @@ dependencies {
     implementation project(':esc')
     //maven { url 'https://jitpack.io' }
     implementation 'com.github.gzeinnumer:SimpleMaterialStyle:2.0.0'
+
+    implementation 'com.github.gzeinnumer:SQLiteBuilder:2.0.0'
 }
