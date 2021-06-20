@@ -112,7 +112,7 @@ public class TestActivity extends AppCompatActivity {
     }
 }
 ```
-Here is my [DatabaseHelper](https://github.com/gzeinnumer/EasySQLiteCRUD/blob/master/app/src/main/java/com/gzeinnumer/easysqlitecrud/helper/DatabaseHelper.java).
+Here is my [DBInstance](https://github.com/gzeinnumer/EasySQLiteCRUD/blob/master/app/src/main/java/com/gzeinnumer/easysqlitecrud/helper/DBInstance.java).
 
 **Or you can use your own configuration to connect to Database, just make sure you have access to your `local database`. [ReadMore](https://developer.android.com/training/data-storage/sqlite?hl=id)**.
 
@@ -481,15 +481,6 @@ public class Table1 extends SQLiteLIB<Table1> {
 **Notes :**
 You can use it to excecute `insert` or `update` and give you `true/false` as return.
 
-If you want to ignore some column to update with set value to `null`. example:
-```java
-data.setFlag_active(1); //column flag_active will be update to 1
-data.setCreated_at(null); //column created_at will be ingore to update
-
-return insertDataOrUpdate(Table1.class, sqLiteDatabase, data);
-```
-If you want to update value to `null` use this [Query Result](https://github.com/gzeinnumer/EasySQLiteCRUD#9-query-result)
-
 ---
 
 Entity Old Verision
@@ -515,13 +506,13 @@ Entity New Verion
 ---
 # Example Code/App
 
-**Example App [Java](https://github.com/gzeinnumer/MyLibSQLiteExample) & [Kotlin](https://github.com/gzeinnumer/MyLibSimpleSQLitekt)**
+**Example App [Java](https://github.com/gzeinnumer/EasySqliteCrudExample)**
 
 [Sample Code And App](https://github.com/gzeinnumer/MyLibSQLiteExample)
 
 ---
 
-You can combine this library with [MyLibSQLiteBuilder](https://github.com/gzeinnumer/MyLibSQLiteBuilder)
+You can combine this library with [SQLiteBuilder](https://github.com/gzeinnumer/SQLiteBuilder)
 
 ---
 # Version

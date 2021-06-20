@@ -204,4 +204,3 @@ public class Table1_OLD {
         this.table2_name = table2_name;
     }
 }
-

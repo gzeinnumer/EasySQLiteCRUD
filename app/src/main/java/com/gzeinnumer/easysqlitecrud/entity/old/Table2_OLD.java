@@ -1,8 +1,7 @@
 package com.gzeinnumer.easysqlitecrud.entity.old;
 
 public class Table2_OLD {
-
-    private final String TABLE = "table1";
+    private final String TABLE = "table2";
     private final String KEY_ID = "id";
     private final String KEY_NAME = "name";
     private final String KEY_TABLE2_NAME = "table2_name";
