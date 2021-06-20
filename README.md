@@ -69,7 +69,9 @@ dependencies {
 - [x] [7. Read](#7-read)
 - [x] [8. Query Data](#8-query-data) for Complex Query. return List.
 - [x] [9. Query Result](#9-query-result) return true/false.
-- [x] [10. Read Single Data](#8-read-single-data)
+- [x] [10. Read Single Data](#10-read-single-data)
+- [x] [11. Read Single Data](#11-insert-or-ignore)
+- [x] [12. Read Single Data](#12-insert-or-update)
 - [ ] Create Table
 
 ---
