@@ -201,7 +201,7 @@ public class Table1 extends SQLiteLIB<Table1> {
 
     //INSERT INTO table1 (name, rating, desc, flag_active, created_at) VALUES ('Name Update', '1.6.', 'Desc Update', '1', '12-12-2020');
     //or
-    //UPDATE table1 SET name='Name Update', rating='1.6', desc='Desc Update', flag_active='1', created_at='12-12-2020' WHERE id='7' and flag_active='1';
+    //UPDATE table1 SET name='Name Update', rating='1.6', desc='Desc Update', flag_active='1', created_at='12-12-2020' WHERE id='15' and flag_active='10';
     public boolean insertOrUpdateQuery() {
         Table1 data = new Table1();
         data.setId(7);
