@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true">
@@ -42,81 +41,98 @@
 
             <View style="@style/MyDivider.Toolbar" />
 
-            <LinearLayout
-                android:gravity="center"
-                style="@style/MyParentType"
-                android:layout_marginTop="@dimen/def_margin">
 
-                <Button
-                    android:id="@+id/btn_insert"
-                    style="@style/MyButtonContained"
-                    android:text="Insert" />
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
 
-                <Button
-                    android:id="@+id/btn_update"
-                    style="@style/MyButtonContained"
-                    android:text="Update" />
+                <LinearLayout
+                    style="@style/MyParentType"
+                    android:layout_marginTop="@dimen/def_margin"
+                    android:gravity="center">
 
-                <Button
-                    android:id="@+id/btn_delete"
-                    style="@style/MyButtonContained"
-                    android:text="Delete" />
+                    <Button
+                        android:id="@+id/btn_insert"
+                        style="@style/MyButtonContained"
+                        android:text="Insert" />
 
-                <Button
-                    android:id="@+id/btn_count"
-                    style="@style/MyButtonContained"
-                    android:text="Count(All)" />
+                    <Button
+                        android:id="@+id/btn_update"
+                        style="@style/MyButtonContained"
+                        android:text="Update" />
 
-                <Button
-                    android:id="@+id/btn_count2"
-                    style="@style/MyButtonContained"
-                    android:text="Count(Condition)" />
+                    <Button
+                        android:id="@+id/btn_delete"
+                        style="@style/MyButtonContained"
+                        android:text="Delete" />
 
-                <Button
-                    android:id="@+id/btn_count3"
-                    style="@style/MyButtonContained"
-                    android:text="Count(Query)" />
+                    <Button
+                        android:id="@+id/btn_count"
+                        style="@style/MyButtonContained"
+                        android:text="Count(All)" />
 
-                <Button
-                    android:id="@+id/btn_read"
-                    style="@style/MyButtonContained"
-                    android:text="Read(All)" />
+                    <Button
+                        android:id="@+id/btn_count2"
+                        style="@style/MyButtonContained"
+                        android:text="Count(Condition)" />
 
-                <Button
-                    android:id="@+id/btn_read2"
-                    style="@style/MyButtonContained"
-                    android:text="Read(Condition)" />
+                    <Button
+                        android:id="@+id/btn_count3"
+                        style="@style/MyButtonContained"
+                        android:text="Count(Query)" />
 
-                <Button
-                    android:id="@+id/btn_query"
-                    style="@style/MyButtonContained"
-                    android:text="Query" />
+                    <Button
+                        android:id="@+id/btn_read"
+                        style="@style/MyButtonContained"
+                        android:text="Read(All)" />
 
-                <Button
-                    android:id="@+id/btn_query_result_update"
-                    style="@style/MyButtonContained"
-                    android:text="Query Result Update" />
+                    <Button
+                        android:id="@+id/btn_read2"
+                        style="@style/MyButtonContained"
+                        android:text="Read(Condition)" />
 
-                <Button
-                    android:id="@+id/btn_read3"
-                    style="@style/MyButtonContained"
-                    android:text="ReadSingleData" />
+                    <Button
+                        android:id="@+id/btn_query"
+                        style="@style/MyButtonContained"
+                        android:text="Query" />
 
-                <Button
-                    android:id="@+id/btn_read4"
-                    style="@style/MyButtonContained"
-                    android:text="ReadSingleData(Query)" />
+                    <Button
+                        android:id="@+id/btn_query_result_update"
+                        style="@style/MyButtonContained"
+                        android:text="Query Result Update" />
 
-                <Button
-                    android:id="@+id/btn_insert_or_ignore"
-                    style="@style/MyButtonContained"
-                    android:text="Insert Or Ignore" />
+                    <Button
+                        android:id="@+id/btn_read3"
+                        style="@style/MyButtonContained"
+                        android:text="ReadSingleData" />
 
-                <Button
-                    android:id="@+id/btn_insert_or_update"
-                    style="@style/MyButtonContained"
-                    android:text="Insert Or Update" />
-            </LinearLayout>
+                    <Button
+                        android:id="@+id/btn_read4"
+                        style="@style/MyButtonContained"
+                        android:text="ReadSingleData(Query)" />
+
+                    <Button
+                        android:id="@+id/btn_insert_or_ignore"
+                        style="@style/MyButtonContained"
+                        android:text="Insert Or Ignore" />
+
+                    <Button
+                        android:id="@+id/btn_insert_or_update"
+                        style="@style/MyButtonContained"
+                        android:text="Insert Or Update" />
+
+                    <Button
+                        android:id="@+id/btn_insert_or_ignore_query"
+                        style="@style/MyButtonContained"
+                        android:text="Insert Or Ignore COndition" />
+
+                    <Button
+                        android:id="@+id/btn_insert_or_update_query"
+                        style="@style/MyButtonContained"
+                        android:text="Insert Or Update Condition" />
+                </LinearLayout>
+            </androidx.core.widget.NestedScrollView>
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -71,8 +71,6 @@ public abstract class SQLiteLIB<T> implements InterfaceDaoSQLite<T> {
         }
         query.append(";");
 
-        logDQuery(TAG, tableName + "_countData: " + query);
-
         Cursor cursor;
         try {
             cursor = myDb.rawQuery(query.toString(), null);
@@ -238,7 +236,7 @@ public abstract class SQLiteLIB<T> implements InterfaceDaoSQLite<T> {
                 tableName = SQLiteTable.tableName();
             }
         } else {
-            logD("countData: Annotation SQLiteTable Not Found");
+            logD("queryData: Annotation SQLiteTable Not Found");
             return list;
         }
 
@@ -365,21 +363,21 @@ public abstract class SQLiteLIB<T> implements InterfaceDaoSQLite<T> {
         if (clss.isAnnotationPresent(SQLiteTable.class)) {
             SQLiteTable SQLiteTable = clss.getAnnotation(SQLiteTable.class);
             if (SQLiteTable == null) {
-                logD("countData: Annotation SQLiteTable Not Found");
+                logD("queryCount: Annotation SQLiteTable Not Found");
                 return count;
             }
         } else {
-            logD("countData: Annotation SQLiteTable Not Found");
+            logD("queryCount: Annotation SQLiteTable Not Found");
             return count;
         }
 
         if (clss.getDeclaredFields().length == 0) {
-            logD("countData: Annotation Entity Not Found");
+            logD("queryCount: Annotation Entity Not Found");
             return count;
         }
 
         if (myDb == null) {
-            logD("countData: SQLiteDatabase is null object references");
+            logD("queryCount: SQLiteDatabase is null object references");
             return count;
         }
 
@@ -440,7 +438,7 @@ public abstract class SQLiteLIB<T> implements InterfaceDaoSQLite<T> {
                 tableName = SQLiteTable.tableName();
             }
         } else {
-            logD("countData: Annotation SQLiteTable Not Found");
+            logD("insertData: Annotation SQLiteTable Not Found");
             return false;
         }
 
@@ -717,23 +715,23 @@ public abstract class SQLiteLIB<T> implements InterfaceDaoSQLite<T> {
         if (clss.isAnnotationPresent(SQLiteTable.class)) {
             SQLiteTable SQLiteTable = clss.getAnnotation(SQLiteTable.class);
             if (SQLiteTable == null) {
-                logD("readData: Annotation SQLiteTable Not Found");
+                logD("readSingleData: Annotation SQLiteTable Not Found");
                 return list.get(0);
             } else {
                 tableName = SQLiteTable.tableName();
             }
         } else {
-            logD("readData: Annotation SQLiteTable Not Found");
+            logD("readSingleData: Annotation SQLiteTable Not Found");
             return list.get(0);
         }
 
         if (clss.getDeclaredFields().length == 0) {
-            logD("readData: Annotation Entity Not Found");
+            logD("readSingleData: Annotation Entity Not Found");
             return list.get(0);
         }
 
         if (myDb == null) {
-            logD("readData: SQLiteDatabase is null object references");
+            logD("readSingleData: SQLiteDatabase is null object references");
             return list.get(0);
         }
 
@@ -783,8 +781,6 @@ public abstract class SQLiteLIB<T> implements InterfaceDaoSQLite<T> {
         }
 
         query.append(" LIMIT 1;");
-
-        logDQuery(TAG, tableName + "_readData: " + query);
 
         Cursor cursor;
 
@@ -1208,6 +1204,385 @@ public abstract class SQLiteLIB<T> implements InterfaceDaoSQLite<T> {
     3.1.0
      */
 
+    /*
+    3.1.1
+     */
+    @Override
+    public boolean insertDataOrIgnore(Class<T> clss, SQLiteDatabase myDb, T data, String where) {
+        String tableName = "";
+        if (clss.isAnnotationPresent(SQLiteTable.class)) {
+            SQLiteTable SQLiteTable = clss.getAnnotation(SQLiteTable.class);
+            if (SQLiteTable == null) {
+                logD("insertDataOrIgnore: Annotation SQLiteTable Not Found");
+                return false;
+            } else {
+                tableName = SQLiteTable.tableName();
+            }
+        } else {
+            logD("insertDataOrIgnore: Annotation SQLiteTable Not Found");
+            return false;
+        }
+
+        if (clss.getDeclaredFields().length == 0) {
+            logD("insertDataOrIgnore: Annotation Entity Not Found");
+            return false;
+        }
+
+        if (myDb == null) {
+            logD("insertDataOrIgnore: SQLiteDatabase is null object references");
+            return false;
+        }
+
+        List<String> value = new ArrayList<>();
+        List<String> key = new ArrayList<>();
+
+        String field = "";
+        String pKey = "";
+        String pKeyValue = "";
+        for (Field f : clss.getDeclaredFields()) {
+            f.setAccessible(true);
+            PrimaryKeyTypeData primaryKeyTypeData = f.getAnnotation(PrimaryKeyTypeData.class);
+            if (primaryKeyTypeData != null) {
+//                if (!primaryKeyTypeData.autoGenerate()) {
+                field = removeLast(press(f.toString()));
+                key.add(field);
+                pKey = field;
+                try {
+                    if (f.get(data) != null) {
+                        value.add(String.valueOf(f.get(data)));
+                        pKeyValue = String.valueOf(f.get(data));
+                    } else
+                        value.add(null);
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                    logD("insertDataOrIgnore: " + e.getMessage());
+                }
+//                }
+            }
+            IntegerTypeData _int = f.getAnnotation(IntegerTypeData.class);
+            if (_int != null) {
+                field = removeLast(press(f.toString()));
+                key.add(field);
+                try {
+                    if (f.get(data) != null)
+                        value.add(String.valueOf(f.get(data)));
+                    else
+                        value.add(null);
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                    logD("insertDataOrIgnore: " + e.getMessage());
+                }
+            }
+            VarcharTypeData varcharTypeData = f.getAnnotation(VarcharTypeData.class);
+            if (varcharTypeData != null) {
+                field = removeLast(press(f.toString()));
+                key.add(field);
+                try {
+                    if (f.get(data) != null)
+                        value.add(String.valueOf(f.get(data)));
+                    else
+                        value.add(null);
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                    logD("insertDataOrIgnore: " + e.getMessage());
+                }
+            }
+            TimeStampTypeData timestamp = f.getAnnotation(TimeStampTypeData.class);
+            if (timestamp != null) {
+                field = removeLast(press(f.toString()));
+                key.add(field);
+                try {
+                    if (f.get(data) != null)
+                        value.add(String.valueOf(f.get(data)));
+                    else
+                        value.add(null);
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                    logD("insertDataOrIgnore: " + e.getMessage());
+                }
+            }
+            DecimalTypeData decimalTypeData = f.getAnnotation(DecimalTypeData.class);
+            if (decimalTypeData != null) {
+                field = removeLast(press(f.toString()));
+                key.add(field);
+                try {
+                    if (f.get(data) != null)
+                        value.add(String.valueOf(f.get(data)));
+                    else
+                        value.add(null);
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                    logD("insertDataOrIgnore: " + e.getMessage());
+                }
+            }
+            TextTypeData textTypeData = f.getAnnotation(TextTypeData.class);
+            if (textTypeData != null) {
+                field = removeLast(press(f.toString()));
+                key.add(field);
+                try {
+                    if (f.get(data) != null)
+                        value.add(String.valueOf(f.get(data)));
+                    else
+                        value.add(null);
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                    logD("insertDataOrIgnore: " + e.getMessage());
+                }
+            }
+        }
+
+        try {
+            if (where == null || where.length() == 0) {
+                where = " WHERE " + pKey + "='" + pKeyValue + "';";
+            }
+            String query = "SELECT COUNT(" + pKey + ") FROM " + tableName + " " + where;
+
+            int count = (int) DatabaseUtils.longForQuery(myDb, query, null);
+            if (count == 0) {
+                ContentValues values = new ContentValues();
+                for (int i = 0; i < key.size(); i++) {
+                    values.put(key.get(i), value.get(i));
+                }
+                long res = myDb.insert(tableName, null, values);
+                return res > 0;
+            } else {
+                return false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            logD("insertDataOrIgnore: " + e.getMessage());
+            return false;
+        }
+    }
+
+    @Override
+    public boolean insertDataOrUpdate(Class<T> clss, SQLiteDatabase myDb, T data, String[] fieldToUpdate, String where) {
+        String tableName = "";
+        if (clss.isAnnotationPresent(SQLiteTable.class)) {
+            SQLiteTable SQLiteTable = clss.getAnnotation(SQLiteTable.class);
+            if (SQLiteTable == null) {
+                logD("insertDataOrUpdate: Annotation SQLiteTable Not Found");
+                return false;
+            } else {
+                tableName = SQLiteTable.tableName();
+            }
+        } else {
+            logD("insertDataOrUpdate: Annotation SQLiteTable Not Found");
+            return false;
+        }
+
+        if (clss.getDeclaredFields().length == 0) {
+            logD("insertDataOrUpdate: Annotation Entity Not Found");
+            return false;
+        }
+
+        if (myDb == null) {
+            logD("insertDataOrUpdate: SQLiteDatabase is null object references");
+            return false;
+        }
+
+        ArrayList<String> fields = new ArrayList<>(Arrays.asList(fieldToUpdate));
+
+        List<String> value = new ArrayList<>();
+        List<String> key = new ArrayList<>();
+
+        List<String> valueUpdate = new ArrayList<>();
+        List<String> keyUpdate = new ArrayList<>();
+
+        String field = "";
+        String pKey = "";
+        String pKeyValue = "";
+        for (Field f : clss.getDeclaredFields()) {
+            f.setAccessible(true);
+            PrimaryKeyTypeData primaryKeyTypeData = f.getAnnotation(PrimaryKeyTypeData.class);
+            if (primaryKeyTypeData != null) {
+                field = removeLast(press(f.toString()));
+                pKey = field;
+                try {
+                    if (f.get(data) != null) {
+                        key.add(field);
+                        value.add(String.valueOf(f.get(data)));
+                        pKeyValue = String.valueOf(f.get(data));
+                    }
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                    logD("insertDataOrUpdate: " + e.getMessage());
+                }
+                if (fields.contains(field)) {
+                    try {
+                        if (f.get(data) != null) {
+                            keyUpdate.add(field);
+                            valueUpdate.add(String.valueOf(f.get(data)));
+                            pKeyValue = String.valueOf(f.get(data));
+                        }
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                        logD("insertDataOrUpdate: " + e.getMessage());
+                    }
+                }
+            }
+            IntegerTypeData _int = f.getAnnotation(IntegerTypeData.class);
+            if (_int != null) {
+                field = removeLast(press(f.toString()));
+                try {
+                    if (f.get(data) != null) {
+                        key.add(field);
+                        value.add(String.valueOf(f.get(data)));
+                    }
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                    logD("insertDataOrUpdate: " + e.getMessage());
+                }
+
+                if (fields.contains(field)) {
+                    try {
+                        if (f.get(data) != null) {
+                            keyUpdate.add(field);
+                            valueUpdate.add(String.valueOf(f.get(data)));
+                        }
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                        logD("insertDataOrUpdate: " + e.getMessage());
+                    }
+                }
+            }
+            VarcharTypeData varcharTypeData = f.getAnnotation(VarcharTypeData.class);
+            if (varcharTypeData != null) {
+                field = removeLast(press(f.toString()));
+                try {
+                    if (f.get(data) != null) {
+                        key.add(field);
+                        value.add(String.valueOf(f.get(data)));
+                    }
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                    logD("insertDataOrUpdate: " + e.getMessage());
+                }
+                if (fields.contains(field)) {
+                    try {
+                        if (f.get(data) != null) {
+                            keyUpdate.add(field);
+                            valueUpdate.add(String.valueOf(f.get(data)));
+                        }
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                        logD("insertDataOrUpdate: " + e.getMessage());
+                    }
+                }
+            }
+            TimeStampTypeData timestamp = f.getAnnotation(TimeStampTypeData.class);
+            if (timestamp != null) {
+                field = removeLast(press(f.toString()));
+                try {
+                    if (f.get(data) != null) {
+                        key.add(field);
+                        value.add(String.valueOf(f.get(data)));
+                    }
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                    logD("insertDataOrUpdate: " + e.getMessage());
+                }
+
+                if (fields.contains(field)) {
+                    try {
+                        if (f.get(data) != null) {
+                            keyUpdate.add(field);
+                            valueUpdate.add(String.valueOf(f.get(data)));
+                        }
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                        logD("insertDataOrUpdate: " + e.getMessage());
+                    }
+                }
+            }
+            DecimalTypeData decimalTypeData = f.getAnnotation(DecimalTypeData.class);
+            if (decimalTypeData != null) {
+                field = removeLast(press(f.toString()));
+                try {
+                    if (f.get(data) != null) {
+                        key.add(field);
+                        value.add(String.valueOf(f.get(data)));
+                    }
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                    logD("insertDataOrUpdate: " + e.getMessage());
+                }
+
+                if (fields.contains(field)) {
+                    try {
+                        if (f.get(data) != null) {
+                            keyUpdate.add(field);
+                            valueUpdate.add(String.valueOf(f.get(data)));
+                        }
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                        logD("insertDataOrUpdate: " + e.getMessage());
+                    }
+                }
+            }
+            TextTypeData textTypeData = f.getAnnotation(TextTypeData.class);
+            if (textTypeData != null) {
+                field = removeLast(press(f.toString()));
+                try {
+                    if (f.get(data) != null) {
+                        key.add(field);
+                        value.add(String.valueOf(f.get(data)));
+                    }
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                    logD("insertDataOrUpdate: " + e.getMessage());
+                }
+
+                if (fields.contains(field)) {
+                    try {
+                        if (f.get(data) != null) {
+                            keyUpdate.add(field);
+                            valueUpdate.add(String.valueOf(f.get(data)));
+                        }
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                        logD("insertDataOrUpdate: " + e.getMessage());
+                    }
+                }
+            }
+        }
+
+        try {
+
+            if (where == null || where.length() == 0) {
+                where = " WHERE " + pKey + "='" + pKeyValue + "';";
+            }
+            String query = "SELECT COUNT(" + pKey + ") FROM " + tableName + " " + where;
+
+            int count = (int) DatabaseUtils.longForQuery(myDb, query, null);
+
+            if (count > 0) {
+                String whereCondition = removeWhere(where);
+                ContentValues values = new ContentValues();
+                for (int i = 0; i < keyUpdate.size(); i++) {
+                    values.put(keyUpdate.get(i), valueUpdate.get(i));
+                }
+                long res = myDb.update(tableName, values, whereCondition, new String[]{});
+                return res > 0;
+            } else {
+                ContentValues values = new ContentValues();
+                for (int i = 0; i < key.size(); i++) {
+//                    if (!pKey.equals(key.get(i)))
+                    values.put(key.get(i), value.get(i));
+                }
+                long res = myDb.insert(tableName, null, values);
+                return res > 0;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            logD("insertDataOrUpdate: " + e.getMessage());
+            return false;
+        }
+    }
+    /*
+    3.1.1
+     */
+
     private String press(String s) {
         return s.substring(s.lastIndexOf('.') + 1) + ", ";
     }
@@ -1221,14 +1596,14 @@ public abstract class SQLiteLIB<T> implements InterfaceDaoSQLite<T> {
     }
 
     private void logDQuery(String TAG, String msg) {
-        Log.d(TAG, msg);
+        //Log.d(TAG, msg);
     }
 
     private String removeWhere(String a) {
         String strTemp = a.toUpperCase();
         String toRemove = "WHERE";
         int x = strTemp.indexOf(toRemove);
-        if (x != -1) a = a.substring(0, x) + a.substring(x + toRemove.length(), a.length());
+        if (x != -1) a = a.substring(0, x) + a.substring(x + toRemove.length());
         return a;
     }
 }

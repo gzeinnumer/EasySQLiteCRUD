@@ -161,6 +161,21 @@ public class Table1 extends SQLiteLIB<Table1> {
         return insertDataOrIgnore(Table1.class, sqLiteDatabase, data);
     }
 
+    //INSERT INTO table1 (name, rating, desc, flag_active, created_at) VALUES ('Zein', '10.0.', 'Android Programmer', '1', '12-12-2020');
+    public boolean insertOrIgnoreQuery() {
+        Table1 data = new Table1();
+        data.setId(6);
+        data.setName("Zein");
+        data.setRating(10.0);
+        data.setDesc("Android Programmer");
+        data.setFlag_active(1);
+        data.setCreated_at("12-12-2020");
+
+        String where = "WHERE name='gzeinnuer' and flag_active='1';";
+
+        return insertDataOrIgnore(Table1.class, sqLiteDatabase, data, where);
+    }
+
     //INSERT INTO table1 (name, rating, desc, flag_active, created_at) VALUES ('Name Update', '1.6.', 'Desc Update', '1', '12-12-2020');
     //or
     //UPDATE table1 SET name='Name Update', rating='1.6', desc='Desc Update', flag_active='1', created_at='12-12-2020' WHERE id='7';
@@ -182,6 +197,31 @@ public class Table1 extends SQLiteLIB<Table1> {
         }; // put all field that you want to update
 
         return insertDataOrUpdate(Table1.class, sqLiteDatabase, data, fieldToUpdate);
+    }
+
+    //INSERT INTO table1 (name, rating, desc, flag_active, created_at) VALUES ('Name Update', '1.6.', 'Desc Update', '1', '12-12-2020');
+    //or
+    //UPDATE table1 SET name='Name Update', rating='1.6', desc='Desc Update', flag_active='1', created_at='12-12-2020' WHERE id='7' and flag_active='1';
+    public boolean insertOrUpdateQuery() {
+        Table1 data = new Table1();
+        data.setId(7);
+        data.setName("Name Update 10");
+        data.setRating(1.6);
+        data.setDesc("Desc Update");
+        data.setFlag_active(10);
+        data.setCreated_at("12-12-2020");
+
+        String[] fieldToUpdate = new String[]{
+                "name",
+                "rating",
+                "desc",
+                "flag_active",
+                "created_at"
+        }; // put all field that you want to update
+
+        String where = "WHERE id='15' and flag_active='10'";
+
+        return insertDataOrUpdate(Table1.class, sqLiteDatabase, data, fieldToUpdate, where);
     }
 
     public int getId() {
