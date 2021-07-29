@@ -102,7 +102,7 @@ public class Table1 extends SQLiteLIB<Table1> {
     }
 
     //type 3 Your Custom Query
-    // SELECT COUNT(id) FROM table1;
+    //SELECT COUNT(id) FROM table1;
     public int queryCount() {
         String query = "SELECT COUNT(id) FROM table1;";
         return queryCount(Table1.class, sqLiteDatabase, query);
@@ -151,7 +151,7 @@ public class Table1 extends SQLiteLIB<Table1> {
     //INSERT INTO table1 (id, name, rating, desc, flag_active, created_at) VALUES (6,'Zein', '10.0.', 'Android Programmer', '1', '12-12-2020');
     public boolean insertOrIgnore() {
         Table1 data = new Table1();
-        data.setId(6);
+        data.setId(6); //important line, please set your id first
         data.setName("Zein");
         data.setRating(10.0);
         data.setDesc("Android Programmer");
@@ -181,7 +181,7 @@ public class Table1 extends SQLiteLIB<Table1> {
     //UPDATE table1 SET name='Name Update', rating='1.6', desc='Desc Update', flag_active='1', created_at='12-12-2020' WHERE id='7';
     public boolean insertOrUpdate() {
         Table1 data = new Table1();
-        data.setId(7);
+        data.setId(7); //important line, please set your id first
         data.setName("Name Update 2");
         data.setRating(1.6);
         data.setDesc("Desc Update 1");
