@@ -32,7 +32,7 @@ public class Table1 extends SQLiteLIB<Table1> {
     private String created_at;      // for String
 
     // for join column from other table
-    //@JoinColumn(withTable = "table2", columnName = "name")
+    // @JoinColumn(withTable = "table2", columnName = "name")
     @JoinColumn(withTable = "table2", columnName = "name", alias = "table2_name")
     private String table2_name;
 
@@ -60,7 +60,7 @@ public class Table1 extends SQLiteLIB<Table1> {
     public boolean update() {
         //set your value to update
         Table1 data = new Table1();
-        data.setName("Name Update1");
+        data.setName("Name Update");
         data.setDesc("Desc Update");
         data.setFlag_active(0);
 
@@ -115,7 +115,7 @@ public class Table1 extends SQLiteLIB<Table1> {
 
     //type 2 SELECT * FROM table1 WHERE flag_active='1';
     public List<Table1> read2() {
-        //String condition = "";                                      //read all
+        //String condition = "";                                    //read all
         //String condition = "WHERE 1";                             //read all
         String condition = "WHERE flag_active='1'";                 //for single condition
         //String condition = "WHERE id='1' AND flag_Active='1'";    //for multi condition
@@ -148,7 +148,7 @@ public class Table1 extends SQLiteLIB<Table1> {
         return queryResult(Table1.class, sqLiteDatabase, query);
     }
 
-    //INSERT INTO table1 (name, rating, desc, flag_active, created_at) VALUES ('Zein', '10.0.', 'Android Programmer', '1', '12-12-2020');
+    //INSERT INTO table1 (id, name, rating, desc, flag_active, created_at) VALUES (6,'Zein', '10.0.', 'Android Programmer', '1', '12-12-2020');
     public boolean insertOrIgnore() {
         Table1 data = new Table1();
         data.setId(6);
@@ -161,30 +161,30 @@ public class Table1 extends SQLiteLIB<Table1> {
         return insertDataOrIgnore(Table1.class, sqLiteDatabase, data);
     }
 
-    //INSERT INTO table1 (name, rating, desc, flag_active, created_at) VALUES ('Zein', '10.0.', 'Android Programmer', '1', '12-12-2020');
+    //INSERT INTO table1 (id, name, rating, desc, flag_active, created_at) VALUES (8, 'Zein', '10.0.', 'Android Programmer', '1', '12-12-2020');
     public boolean insertOrIgnoreQuery() {
         Table1 data = new Table1();
-        data.setId(6);
-        data.setName("Zein");
+        data.setId(8);
+        data.setName("GZE8");
         data.setRating(10.0);
         data.setDesc("Android Programmer");
         data.setFlag_active(1);
         data.setCreated_at("12-12-2020");
 
-        String where = "WHERE name='gzeinnuer' and flag_active='1';";
+        String iqnoreIfQuery = "WHERE name='GZE8' and flag_active='1';";
 
-        return insertDataOrIgnore(Table1.class, sqLiteDatabase, data, where);
+        return insertDataOrIgnore(Table1.class, sqLiteDatabase, data, iqnoreIfQuery);
     }
 
-    //INSERT INTO table1 (name, rating, desc, flag_active, created_at) VALUES ('Name Update', '1.6.', 'Desc Update', '1', '12-12-2020');
+    //INSERT INTO table1 (id, name, rating, desc, flag_active, created_at) VALUES (7, 'Name Update', '1.6.', 'Desc Update', '1', '12-12-2020');
     //or
     //UPDATE table1 SET name='Name Update', rating='1.6', desc='Desc Update', flag_active='1', created_at='12-12-2020' WHERE id='7';
     public boolean insertOrUpdate() {
         Table1 data = new Table1();
         data.setId(7);
-        data.setName("Name Update");
+        data.setName("Name Update 2");
         data.setRating(1.6);
-        data.setDesc("Desc Update");
+        data.setDesc("Desc Update 1");
         data.setFlag_active(10);
         data.setCreated_at("12-12-2020");
 
@@ -199,15 +199,15 @@ public class Table1 extends SQLiteLIB<Table1> {
         return insertDataOrUpdate(Table1.class, sqLiteDatabase, data, fieldToUpdate);
     }
 
-    //INSERT INTO table1 (name, rating, desc, flag_active, created_at) VALUES ('Name Update', '1.6.', 'Desc Update', '1', '12-12-2020');
+    //INSERT INTO table1 (id, name, rating, desc, flag_active, created_at) VALUES (9, 'Name Update', '1.6', 'Desc Update', '1', '12-12-2020');
     //or
-    //UPDATE table1 SET name='Name Update', rating='1.6', desc='Desc Update', flag_active='1', created_at='12-12-2020' WHERE id='15' and flag_active='10';
+    //UPDATE table1 SET name='Name Update', rating='1.6', desc='Desc Update', flag_active='1', created_at='12-12-2020' WHERE id='9' and flag_active='10';
     public boolean insertOrUpdateQuery() {
         Table1 data = new Table1();
-        data.setId(7);
+        data.setId(9);
         data.setName("Name Update 10");
         data.setRating(1.6);
-        data.setDesc("Desc Update");
+        data.setDesc("Desc Update 10");
         data.setFlag_active(10);
         data.setCreated_at("12-12-2020");
 
@@ -219,7 +219,7 @@ public class Table1 extends SQLiteLIB<Table1> {
                 "created_at"
         }; // put all field that you want to update
 
-        String where = "WHERE id='15' and flag_active='10'";
+        String where = "WHERE id='9' and flag_active='10'";
 
         return insertDataOrUpdate(Table1.class, sqLiteDatabase, data, fieldToUpdate, where);
     }

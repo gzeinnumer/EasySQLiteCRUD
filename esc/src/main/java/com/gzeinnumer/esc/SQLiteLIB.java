@@ -71,6 +71,8 @@ public abstract class SQLiteLIB<T> implements InterfaceDaoSQLite<T> {
         }
         query.append(";");
 
+        logDQuery(TAG, tableName + "_countData: " + query);
+
         Cursor cursor;
         try {
             cursor = myDb.rawQuery(query.toString(), null);
@@ -870,7 +872,6 @@ public abstract class SQLiteLIB<T> implements InterfaceDaoSQLite<T> {
             f.setAccessible(true);
             PrimaryKeyTypeData primaryKeyTypeData = f.getAnnotation(PrimaryKeyTypeData.class);
             if (primaryKeyTypeData != null) {
-//                if (!primaryKeyTypeData.autoGenerate()) {
                 field = removeLast(press(f.toString()));
                 key.add(field);
                 pKey = field;
@@ -884,7 +885,6 @@ public abstract class SQLiteLIB<T> implements InterfaceDaoSQLite<T> {
                     e.printStackTrace();
                     logD("insertDataOrIgnore: " + e.getMessage());
                 }
-//                }
             }
             IntegerTypeData _int = f.getAnnotation(IntegerTypeData.class);
             if (_int != null) {
@@ -959,17 +959,20 @@ public abstract class SQLiteLIB<T> implements InterfaceDaoSQLite<T> {
         }
 
         try {
-            String query = "SELECT COUNT(" + pKey + ") FROM " + tableName + " WHERE " + pKey + "='" + pKeyValue + "';";
+            if (pKeyValue != null && pKeyValue.length() > 0 && !pKeyValue.equals("null") && !pKeyValue.equals("0")) {
+                String query = "SELECT COUNT(" + pKey + ") FROM " + tableName + " WHERE " + pKey + "='" + pKeyValue + "';";
 
-            int count = (int) DatabaseUtils.longForQuery(myDb, query, null);
-            if (count == 0) {
-                ContentValues values = new ContentValues();
-                for (int i = 0; i < key.size(); i++) {
-                    if (!pKey.equals(key.get(i)))
+                int count = (int) DatabaseUtils.longForQuery(myDb, query, null);
+                if (count == 0) {
+                    ContentValues values = new ContentValues();
+                    for (int i = 0; i < key.size(); i++) {
                         values.put(key.get(i), value.get(i));
+                    }
+                    long res = myDb.insert(tableName, null, values);
+                    return res > 0;
+                } else {
+                    return false;
                 }
-                long res = myDb.insert(tableName, null, values);
-                return res > 0;
             } else {
                 return false;
             }
@@ -1017,6 +1020,7 @@ public abstract class SQLiteLIB<T> implements InterfaceDaoSQLite<T> {
         String field = "";
         String pKey = "";
         String pKeyValue = "";
+
         for (Field f : clss.getDeclaredFields()) {
             f.setAccessible(true);
             PrimaryKeyTypeData primaryKeyTypeData = f.getAnnotation(PrimaryKeyTypeData.class);
@@ -1035,11 +1039,9 @@ public abstract class SQLiteLIB<T> implements InterfaceDaoSQLite<T> {
                 }
                 if (fields.contains(field)) {
                     try {
-                        if (f.get(data) != null) {
-                            keyUpdate.add(field);
-                            valueUpdate.add(String.valueOf(f.get(data)));
-                            pKeyValue = String.valueOf(f.get(data));
-                        }
+                        keyUpdate.add(field);
+                        valueUpdate.add(String.valueOf(f.get(data)));
+                        pKeyValue = String.valueOf(f.get(data));
                     } catch (IllegalAccessException e) {
                         e.printStackTrace();
                         logD("insertDataOrUpdate: " + e.getMessage());
@@ -1061,10 +1063,8 @@ public abstract class SQLiteLIB<T> implements InterfaceDaoSQLite<T> {
 
                 if (fields.contains(field)) {
                     try {
-                        if (f.get(data) != null) {
-                            keyUpdate.add(field);
-                            valueUpdate.add(String.valueOf(f.get(data)));
-                        }
+                        keyUpdate.add(field);
+                        valueUpdate.add(String.valueOf(f.get(data)));
                     } catch (IllegalAccessException e) {
                         e.printStackTrace();
                         logD("insertDataOrUpdate: " + e.getMessage());
@@ -1085,10 +1085,8 @@ public abstract class SQLiteLIB<T> implements InterfaceDaoSQLite<T> {
                 }
                 if (fields.contains(field)) {
                     try {
-                        if (f.get(data) != null) {
-                            keyUpdate.add(field);
-                            valueUpdate.add(String.valueOf(f.get(data)));
-                        }
+                        keyUpdate.add(field);
+                        valueUpdate.add(String.valueOf(f.get(data)));
                     } catch (IllegalAccessException e) {
                         e.printStackTrace();
                         logD("insertDataOrUpdate: " + e.getMessage());
@@ -1110,10 +1108,8 @@ public abstract class SQLiteLIB<T> implements InterfaceDaoSQLite<T> {
 
                 if (fields.contains(field)) {
                     try {
-                        if (f.get(data) != null) {
-                            keyUpdate.add(field);
-                            valueUpdate.add(String.valueOf(f.get(data)));
-                        }
+                        keyUpdate.add(field);
+                        valueUpdate.add(String.valueOf(f.get(data)));
                     } catch (IllegalAccessException e) {
                         e.printStackTrace();
                         logD("insertDataOrUpdate: " + e.getMessage());
@@ -1135,10 +1131,8 @@ public abstract class SQLiteLIB<T> implements InterfaceDaoSQLite<T> {
 
                 if (fields.contains(field)) {
                     try {
-                        if (f.get(data) != null) {
-                            keyUpdate.add(field);
-                            valueUpdate.add(String.valueOf(f.get(data)));
-                        }
+                        keyUpdate.add(field);
+                        valueUpdate.add(String.valueOf(f.get(data)));
                     } catch (IllegalAccessException e) {
                         e.printStackTrace();
                         logD("insertDataOrUpdate: " + e.getMessage());
@@ -1160,10 +1154,8 @@ public abstract class SQLiteLIB<T> implements InterfaceDaoSQLite<T> {
 
                 if (fields.contains(field)) {
                     try {
-                        if (f.get(data) != null) {
-                            keyUpdate.add(field);
-                            valueUpdate.add(String.valueOf(f.get(data)));
-                        }
+                        keyUpdate.add(field);
+                        valueUpdate.add(String.valueOf(f.get(data)));
                     } catch (IllegalAccessException e) {
                         e.printStackTrace();
                         logD("insertDataOrUpdate: " + e.getMessage());
@@ -1173,26 +1165,32 @@ public abstract class SQLiteLIB<T> implements InterfaceDaoSQLite<T> {
         }
 
         try {
-            String query = "SELECT COUNT(" + pKey + ") FROM " + tableName + " WHERE " + pKey + "='" + pKeyValue + "';";
+            if (pKeyValue != null && pKeyValue.length() > 0 && !pKeyValue.equals("null") && !pKeyValue.equals("0")) {
+                String query = "SELECT COUNT(" + pKey + ") FROM " + tableName + " WHERE " + pKey + "='" + pKeyValue + "';";
 
-            int count = (int) DatabaseUtils.longForQuery(myDb, query, null);
+                int count = (int) DatabaseUtils.longForQuery(myDb, query, null);
 
-            if (count > 0) {
-                String whereCondition = "" + pKey + "='" + pKeyValue + "'";
-                ContentValues values = new ContentValues();
-                for (int i = 0; i < keyUpdate.size(); i++) {
-                    values.put(keyUpdate.get(i), valueUpdate.get(i));
-                }
-                long res = myDb.update(tableName, values, whereCondition, new String[]{});
-                return res > 0;
-            } else {
-                ContentValues values = new ContentValues();
-                for (int i = 0; i < key.size(); i++) {
-                    if (!pKey.equals(key.get(i)))
+                if (count > 0) {
+                    String whereCondition = "" + pKey + "='" + pKeyValue + "'";
+                    ContentValues values = new ContentValues();
+                    for (int i = 0; i < keyUpdate.size(); i++) {
+                        if (!valueUpdate.get(i).equals("null"))
+                            values.put(keyUpdate.get(i), valueUpdate.get(i));
+                        else
+                            values.put(keyUpdate.get(i), (String) null);
+                    }
+                    long res = myDb.update(tableName, values, whereCondition, new String[]{});
+                    return res > 0;
+                } else {
+                    ContentValues values = new ContentValues();
+                    for (int i = 0; i < key.size(); i++) {
                         values.put(key.get(i), value.get(i));
+                    }
+                    long res = myDb.insert(tableName, null, values);
+                    return res > 0;
                 }
-                long res = myDb.insert(tableName, null, values);
-                return res > 0;
+            } else {
+                return false;
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -1239,11 +1237,11 @@ public abstract class SQLiteLIB<T> implements InterfaceDaoSQLite<T> {
         String field = "";
         String pKey = "";
         String pKeyValue = "";
+
         for (Field f : clss.getDeclaredFields()) {
             f.setAccessible(true);
             PrimaryKeyTypeData primaryKeyTypeData = f.getAnnotation(PrimaryKeyTypeData.class);
             if (primaryKeyTypeData != null) {
-//                if (!primaryKeyTypeData.autoGenerate()) {
                 field = removeLast(press(f.toString()));
                 key.add(field);
                 pKey = field;
@@ -1257,7 +1255,6 @@ public abstract class SQLiteLIB<T> implements InterfaceDaoSQLite<T> {
                     e.printStackTrace();
                     logD("insertDataOrIgnore: " + e.getMessage());
                 }
-//                }
             }
             IntegerTypeData _int = f.getAnnotation(IntegerTypeData.class);
             if (_int != null) {
@@ -1392,6 +1389,7 @@ public abstract class SQLiteLIB<T> implements InterfaceDaoSQLite<T> {
         String field = "";
         String pKey = "";
         String pKeyValue = "";
+
         for (Field f : clss.getDeclaredFields()) {
             f.setAccessible(true);
             PrimaryKeyTypeData primaryKeyTypeData = f.getAnnotation(PrimaryKeyTypeData.class);
@@ -1410,11 +1408,9 @@ public abstract class SQLiteLIB<T> implements InterfaceDaoSQLite<T> {
                 }
                 if (fields.contains(field)) {
                     try {
-                        if (f.get(data) != null) {
-                            keyUpdate.add(field);
-                            valueUpdate.add(String.valueOf(f.get(data)));
-                            pKeyValue = String.valueOf(f.get(data));
-                        }
+                        keyUpdate.add(field);
+                        valueUpdate.add(String.valueOf(f.get(data)));
+                        pKeyValue = String.valueOf(f.get(data));
                     } catch (IllegalAccessException e) {
                         e.printStackTrace();
                         logD("insertDataOrUpdate: " + e.getMessage());
@@ -1436,10 +1432,8 @@ public abstract class SQLiteLIB<T> implements InterfaceDaoSQLite<T> {
 
                 if (fields.contains(field)) {
                     try {
-                        if (f.get(data) != null) {
                             keyUpdate.add(field);
                             valueUpdate.add(String.valueOf(f.get(data)));
-                        }
                     } catch (IllegalAccessException e) {
                         e.printStackTrace();
                         logD("insertDataOrUpdate: " + e.getMessage());
@@ -1460,10 +1454,8 @@ public abstract class SQLiteLIB<T> implements InterfaceDaoSQLite<T> {
                 }
                 if (fields.contains(field)) {
                     try {
-                        if (f.get(data) != null) {
                             keyUpdate.add(field);
                             valueUpdate.add(String.valueOf(f.get(data)));
-                        }
                     } catch (IllegalAccessException e) {
                         e.printStackTrace();
                         logD("insertDataOrUpdate: " + e.getMessage());
@@ -1485,10 +1477,8 @@ public abstract class SQLiteLIB<T> implements InterfaceDaoSQLite<T> {
 
                 if (fields.contains(field)) {
                     try {
-                        if (f.get(data) != null) {
                             keyUpdate.add(field);
                             valueUpdate.add(String.valueOf(f.get(data)));
-                        }
                     } catch (IllegalAccessException e) {
                         e.printStackTrace();
                         logD("insertDataOrUpdate: " + e.getMessage());
@@ -1510,10 +1500,8 @@ public abstract class SQLiteLIB<T> implements InterfaceDaoSQLite<T> {
 
                 if (fields.contains(field)) {
                     try {
-                        if (f.get(data) != null) {
                             keyUpdate.add(field);
                             valueUpdate.add(String.valueOf(f.get(data)));
-                        }
                     } catch (IllegalAccessException e) {
                         e.printStackTrace();
                         logD("insertDataOrUpdate: " + e.getMessage());
@@ -1535,10 +1523,8 @@ public abstract class SQLiteLIB<T> implements InterfaceDaoSQLite<T> {
 
                 if (fields.contains(field)) {
                     try {
-                        if (f.get(data) != null) {
                             keyUpdate.add(field);
                             valueUpdate.add(String.valueOf(f.get(data)));
-                        }
                     } catch (IllegalAccessException e) {
                         e.printStackTrace();
                         logD("insertDataOrUpdate: " + e.getMessage());
@@ -1548,30 +1534,34 @@ public abstract class SQLiteLIB<T> implements InterfaceDaoSQLite<T> {
         }
 
         try {
-
-            if (where == null || where.length() == 0) {
-                where = " WHERE " + pKey + "='" + pKeyValue + "';";
-            }
-            String query = "SELECT COUNT(" + pKey + ") FROM " + tableName + " " + where;
-
-            int count = (int) DatabaseUtils.longForQuery(myDb, query, null);
-
-            if (count > 0) {
-                String whereCondition = removeWhere(where);
-                ContentValues values = new ContentValues();
-                for (int i = 0; i < keyUpdate.size(); i++) {
-                    values.put(keyUpdate.get(i), valueUpdate.get(i));
+            if (pKeyValue != null && pKeyValue.length() > 0 && !pKeyValue.equals("null") && !pKeyValue.equals("0")) {
+                if (where == null || where.length() == 0) {
+                    where = " WHERE " + pKey + "='" + pKeyValue + "';";
                 }
-                long res = myDb.update(tableName, values, whereCondition, new String[]{});
-                return res > 0;
+                String query = "SELECT COUNT(" + pKey + ") FROM " + tableName + " " + where;
+
+                int count = (int) DatabaseUtils.longForQuery(myDb, query, null);
+
+                Log.d(getClass().getSimpleName(), "insertDataOrUpdate: " + count);
+
+                if (count > 0) {
+                    String whereCondition = removeWhere(where);
+                    ContentValues values = new ContentValues();
+                    for (int i = 0; i < keyUpdate.size(); i++) {
+                        values.put(keyUpdate.get(i), valueUpdate.get(i));
+                    }
+                    long res = myDb.update(tableName, values, whereCondition, new String[]{});
+                    return res > 0;
+                } else {
+                    ContentValues values = new ContentValues();
+                    for (int i = 0; i < key.size(); i++) {
+                        values.put(key.get(i), value.get(i));
+                    }
+                    long res = myDb.insert(tableName, null, values);
+                    return res > 0;
+                }
             } else {
-                ContentValues values = new ContentValues();
-                for (int i = 0; i < key.size(); i++) {
-//                    if (!pKey.equals(key.get(i)))
-                    values.put(key.get(i), value.get(i));
-                }
-                long res = myDb.insert(tableName, null, values);
-                return res > 0;
+                return false;
             }
         } catch (Exception e) {
             e.printStackTrace();
