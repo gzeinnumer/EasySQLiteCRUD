@@ -3,6 +3,7 @@ package com.gzeinnumer.easysqlitecrud.entity;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.gzeinnumer.esc.SQLiteLIB;
+import com.gzeinnumer.esc.struck.HistoryTable;
 import com.gzeinnumer.esc.struck.JoinColumn;
 import com.gzeinnumer.esc.struck.SQLiteTable;
 import com.gzeinnumer.esc.typeData.DecimalTypeData;
@@ -15,6 +16,7 @@ import com.gzeinnumer.esc.typeData.VarcharTypeData;
 import java.util.List;
 
 @SQLiteTable(tableName = "table1")
+@HistoryTable(tableName = "table1_his")
 public class Table1 extends SQLiteLIB<Table1> {
     @PrimaryKeyTypeData
     private int id;                 // for Primary key
@@ -222,6 +224,22 @@ public class Table1 extends SQLiteLIB<Table1> {
         String where = "WHERE id='9' and flag_active='10'";
 
         return insertDataOrUpdate(Table1.class, sqLiteDatabase, data, fieldToUpdate, where);
+    }
+
+    //INSERT INTO table1 (id, name, rating, desc, flag_active, created_at) VALUES (10, 'Name 10', '1.6', 'Desc 10', '10', '12-12-2020');
+    //or if value exists
+    //UPDATE table1 SET name='Name 10', rating='1.6', desc='Desc 10', flag_active='10', created_at='12-12-2020' WHERE id='10';
+    //INSERT INTO table1_his (id, name, rating, desc, flag_active, created_at) VALUES (10, 'Name 10', '1.6', 'Desc 10', '10', '12-12-2020');
+    public boolean lastOnHistory() {
+        Table1 data = new Table1();
+//        data.setId(10); //important line, please set your id first
+        data.setName("Name 10");
+        data.setRating(1.6);
+        data.setDesc("Desc 10");
+        data.setFlag_active(10);
+        data.setCreated_at("12-12-2020");
+
+        return lastDataOnHistory(Table1.class, sqLiteDatabase, data);
     }
 
     public int getId() {

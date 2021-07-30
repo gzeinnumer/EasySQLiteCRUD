@@ -12,7 +12,7 @@
 </h1>
 
 <div align="center">
-    <a><img src="https://img.shields.io/badge/Version-3.1.1-brightgreen.svg?style=flat"></a>
+    <a><img src="https://img.shields.io/badge/Version-3.2.0-brightgreen.svg?style=flat"></a>
     <a><img src="https://img.shields.io/badge/ID-gzeinnumer-blue.svg?style=flat"></a>
     <a><img src="https://img.shields.io/badge/Java-Suport-green?logo=java&style=flat"></a>
     <a><img src="https://img.shields.io/badge/Kotlin-Suport-green?logo=kotlin&style=flat"></a>
@@ -72,6 +72,7 @@ dependencies {
 - [x] [10. Read Single Data](#10-read-single-data)
 - [x] [11. Insert Or Ignore](#11-insert-or-ignore)
 - [x] [12. Insert Or Update](#12-insert-or-update)
+- [x] [13. Update And Backup Last Data](#13-Update-and-backup-last-data)
 - [ ] Create Table
 
 ---
@@ -118,7 +119,7 @@ Here is my [DBInstance](https://github.com/gzeinnumer/EasySQLiteCRUD/blob/master
 
 #
 ### 1. Table
-You need to extends `SQLiteLIB<YourEntity>` to your `Entity Class`. And Use Annotation `@SQLiteTable(tableName = "your_table_name")`. Than make `contructor` like this:
+You need to extends `SQLiteLIB<YourEntity>` to your `Entity Class`. And Use Annotation `@SQLiteTable(tableName = "your_table_name")`. Then make `contructor` like this:
 ```java
 @SQLiteTable(tableName = "table1")
 public class Table1 extends SQLiteLIB<Table1> {
@@ -524,6 +525,43 @@ public class Table1 extends SQLiteLIB<Table1> {
 **Notes :**
 You can use it to excecute `insert` or `update` and give you `true/false` as return.
 
+#
+### 13. Update And Backup Last Data
+First you have to make table history, and put it in Annotation `@HistoryTable(tableName = "your_table_history_name")`.
+
+Create `table1_his` that have same column with `table1` and add one extra column `id_edit` at the beggining of the `table1_his`. History table should be like this.
+<p align="center">
+  <img src="https://github.com/gzeinnumer/EasySQLiteCRUD/blob/master/preview/example9.JPG" width="400"/>
+</p>
+
+> Simple Code
+```java
+@SQLiteTable(tableName = "table1")
+@HistoryTable(tableName = "table1_his")
+public class Table1 extends SQLiteLIB<Table1> {
+
+    ...
+
+    //INSERT INTO table1 (id, name, rating, desc, flag_active, created_at) VALUES (10, 'Name 10', '1.6', 'Desc 10', '10', '12-12-2020');
+    //or if value exists
+    //UPDATE table1 SET name='Name 10', rating='1.6', desc='Desc 10', flag_active='10', created_at='12-12-2020' WHERE id='10';
+    //INSERT INTO table1_his (id, name, rating, desc, flag_active, created_at) VALUES (10, 'Name 10', '1.6', 'Desc 10', '10', '12-12-2020');
+    public boolean lastOnHistory() {
+        Table1 data = new Table1();
+        data.setId(10); //important line, please set your id first
+        data.setName("Name 10");
+        data.setRating(1.6);
+        data.setDesc("Desc 10");
+        data.setFlag_active(10);
+        data.setCreated_at("12-12-2020");
+
+        return lastDataOnHistory(Table1.class, sqLiteDatabase, data);
+    }
+}
+```
+**Notes :**
+You can use it to insert new value. If value exists current data will be update and last data will insert to `History Table`.
+
 ---
 
 Entity Old Verision
@@ -591,6 +629,8 @@ You can combine this library with [SQLiteBuilder](https://github.com/gzeinnumer/
 - **3.1.1**
   - Insert Or Ignore Condition
   - Insert Or Update Condition
+- **3.2.0**
+  - Insert And Backup To History
 
 ---
 # Contribution
