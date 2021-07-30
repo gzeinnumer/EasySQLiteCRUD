@@ -534,8 +534,6 @@ Create `table1_his` that have same column with `table1` and add one extra column
   <img src="https://github.com/gzeinnumer/EasySQLiteCRUD/blob/master/preview/example9.JPG" width="400"/>
 </p>
 
-> Lets see [Boilerplate Code Insert Or Update](https://github.com/gzeinnumer/EasySQLiteCRUD/blob/master/README_Insert_Or_Update.md)
-
 > Simple Code
 ```java
 @SQLiteTable(tableName = "table1")
