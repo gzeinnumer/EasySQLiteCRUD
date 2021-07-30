@@ -229,10 +229,10 @@ public class Table1 extends SQLiteLIB<Table1> {
     //INSERT INTO table1 (id, name, rating, desc, flag_active, created_at) VALUES (10, 'Name 10', '1.6', 'Desc 10', '10', '12-12-2020');
     //or if value exists
     //UPDATE table1 SET name='Name 10', rating='1.6', desc='Desc 10', flag_active='10', created_at='12-12-2020' WHERE id='10';
-    //INSERT INTO table1 (id, name, rating, desc, flag_active, created_at) VALUES (10, 'Name 10', '1.6', 'Desc 10', '10', '12-12-2020');
+    //INSERT INTO table1_his (id, name, rating, desc, flag_active, created_at) VALUES (10, 'Name 10', '1.6', 'Desc 10', '10', '12-12-2020');
     public boolean lastOnHistory() {
         Table1 data = new Table1();
-        data.setId(10); //important line, please set your id first
+//        data.setId(10); //important line, please set your id first
         data.setName("Name 10");
         data.setRating(1.6);
         data.setDesc("Desc 10");

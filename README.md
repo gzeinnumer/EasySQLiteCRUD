@@ -119,7 +119,7 @@ Here is my [DBInstance](https://github.com/gzeinnumer/EasySQLiteCRUD/blob/master
 
 #
 ### 1. Table
-You need to extends `SQLiteLIB<YourEntity>` to your `Entity Class`. And Use Annotation `@SQLiteTable(tableName = "your_table_name")`. Than make `contructor` like this:
+You need to extends `SQLiteLIB<YourEntity>` to your `Entity Class`. And Use Annotation `@SQLiteTable(tableName = "your_table_name")`. Then make `contructor` like this:
 ```java
 @SQLiteTable(tableName = "table1")
 public class Table1 extends SQLiteLIB<Table1> {
@@ -527,11 +527,19 @@ You can use it to excecute `insert` or `update` and give you `true/false` as ret
 
 #
 ### 13. Update And Backup Last Data
+First you have to make table history, and put it in Annotation `@HistoryTable(tableName = "your_table_history_name").
+
+Create `table1_his` that have same column with `table1` and add one extra column `id_edit` at the beggining of the `table1_his`. History table should be like this.
+<p align="center">
+  <img src="https://github.com/gzeinnumer/EasySQLiteCRUD/blob/master/preview/example9.JPG" width="400"/>
+</p>
+
 > Lets see [Boilerplate Code Insert Or Update](https://github.com/gzeinnumer/EasySQLiteCRUD/blob/master/README_Insert_Or_Update.md)
 
 > Simple Code
 ```java
 @SQLiteTable(tableName = "table1")
+@HistoryTable(tableName = "table1_his")
 public class Table1 extends SQLiteLIB<Table1> {
 
     ...
@@ -539,7 +547,7 @@ public class Table1 extends SQLiteLIB<Table1> {
     //INSERT INTO table1 (id, name, rating, desc, flag_active, created_at) VALUES (10, 'Name 10', '1.6', 'Desc 10', '10', '12-12-2020');
     //or if value exists
     //UPDATE table1 SET name='Name 10', rating='1.6', desc='Desc 10', flag_active='10', created_at='12-12-2020' WHERE id='10';
-    //INSERT INTO table1 (id, name, rating, desc, flag_active, created_at) VALUES (10, 'Name 10', '1.6', 'Desc 10', '10', '12-12-2020');
+    //INSERT INTO table1_his (id, name, rating, desc, flag_active, created_at) VALUES (10, 'Name 10', '1.6', 'Desc 10', '10', '12-12-2020');
     public boolean lastOnHistory() {
         Table1 data = new Table1();
         data.setId(10); //important line, please set your id first
