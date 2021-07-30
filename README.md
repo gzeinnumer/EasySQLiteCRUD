@@ -527,7 +527,7 @@ You can use it to excecute `insert` or `update` and give you `true/false` as ret
 
 #
 ### 13. Update And Backup Last Data
-First you have to make table history, and put it in Annotation `@HistoryTable(tableName = "your_table_history_name").
+First you have to make table history, and put it in Annotation `@HistoryTable(tableName = "your_table_history_name")`.
 
 Create `table1_his` that have same column with `table1` and add one extra column `id_edit` at the beggining of the `table1_his`. History table should be like this.
 <p align="center">
