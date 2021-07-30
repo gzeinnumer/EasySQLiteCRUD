@@ -119,5 +119,10 @@ public class TestActivity extends AppCompatActivity {
             Log.d(TAG, "onCreate_16: " + istrue);
             Toast.makeText(this, String.valueOf(istrue), Toast.LENGTH_SHORT).show();
         });
+        binding.btnLastDataOnHistory.setOnClickListener(view -> {
+            boolean istrue = table1.lastOnHistory();
+            Log.d(TAG, "onCreate_17: " + istrue);
+            Toast.makeText(this, String.valueOf(istrue), Toast.LENGTH_SHORT).show();
+        });
     }
 }

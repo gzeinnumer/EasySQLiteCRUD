@@ -163,6 +163,11 @@
                         android:id="@+id/btn_insert_or_update_query"
                         style="@style/MyButtonContained"
                         android:text="Insert Or Update Condition" />
+
+                    <Button
+                        android:id="@+id/btn_last_data_on_history"
+                        style="@style/MyButtonContained"
+                        android:text="Insert Last Data On History" />
                 </LinearLayout>
             </androidx.core.widget.NestedScrollView>
         </LinearLayout>
