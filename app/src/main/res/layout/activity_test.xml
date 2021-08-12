@@ -168,6 +168,11 @@
                         android:id="@+id/btn_last_data_on_history"
                         style="@style/MyButtonContained"
                         android:text="Insert Last Data On History" />
+
+                    <Button
+                        android:id="@+id/btn_get_last_data"
+                        style="@style/MyButtonContained"
+                        android:text="Get Last Data" />
                 </LinearLayout>
             </androidx.core.widget.NestedScrollView>
         </LinearLayout>
