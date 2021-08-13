@@ -12,7 +12,7 @@
 </h1>
 
 <div align="center">
-    <a><img src="https://img.shields.io/badge/Version-3.2.0-brightgreen.svg?style=flat"></a>
+    <a><img src="https://img.shields.io/badge/Version-3.3.0-brightgreen.svg?style=flat"></a>
     <a><img src="https://img.shields.io/badge/ID-gzeinnumer-blue.svg?style=flat"></a>
     <a><img src="https://img.shields.io/badge/Java-Suport-green?logo=java&style=flat"></a>
     <a><img src="https://img.shields.io/badge/Kotlin-Suport-green?logo=kotlin&style=flat"></a>
@@ -73,6 +73,7 @@ dependencies {
 - [x] [11. Insert Or Ignore](#11-insert-or-ignore)
 - [x] [12. Insert Or Update](#12-insert-or-update)
 - [x] [13. Update And Backup Last Data](#13-Update-and-backup-last-data)
+- [x] [14. Get Last Data](#14-get-last-data)
 - [ ] Create Table
 
 ---
@@ -562,6 +563,25 @@ public class Table1 extends SQLiteLIB<Table1> {
 **Notes :**
 You can use it to insert new value. If value exists current data will be update and last data will insert to `History Table`.
 
+#
+### 14. Get Last Data
+
+> Simple Code
+```java
+@SQLiteTable(tableName = "table1")
+public class Table1 extends SQLiteLIB<Table1> {
+
+    ...
+
+    //SELECT * FROM table1 ORDER BY id DESC LIMIT 1;
+    public Table1 getLastData() {
+        return readLastData(Table1.class, sqLiteDatabase);
+    }
+}
+```
+**Notes :**
+You have to validate result is null or not.
+
 ---
 
 Entity Old Verision
@@ -631,6 +651,8 @@ You can combine this library with [SQLiteBuilder](https://github.com/gzeinnumer/
   - Insert Or Update Condition
 - **3.2.0**
   - Insert And Backup To History
+- **3.3.0**
+  - Read Last Data
 
 ---
 # Contribution

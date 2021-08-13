@@ -242,6 +242,11 @@ public class Table1 extends SQLiteLIB<Table1> {
         return lastDataOnHistory(Table1.class, sqLiteDatabase, data);
     }
 
+    //SELECT * FROM table1 ORDER BY id DESC LIMIT 1;
+    public Table1 getLastData() {
+        return readLastData(Table1.class, sqLiteDatabase);
+    }
+
     public int getId() {
         return id;
     }

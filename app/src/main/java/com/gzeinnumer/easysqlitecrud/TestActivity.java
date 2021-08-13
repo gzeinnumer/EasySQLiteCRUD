@@ -124,5 +124,9 @@ public class TestActivity extends AppCompatActivity {
             Log.d(TAG, "onCreate_17: " + istrue);
             Toast.makeText(this, String.valueOf(istrue), Toast.LENGTH_SHORT).show();
         });
+        binding.btnGetLastData.setOnClickListener(view -> {
+            Table1 lastData = table1.getLastData();
+            Log.d(TAG, "onCreate_18: " + lastData.getId());
+        });
     }
 }

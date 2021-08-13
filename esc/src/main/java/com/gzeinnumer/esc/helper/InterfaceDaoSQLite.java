@@ -21,6 +21,6 @@ public interface InterfaceDaoSQLite<T> {
     boolean insertDataOrIgnore(Class<T> clss, SQLiteDatabase myDb, T data, String where);
     boolean insertDataOrUpdate(Class<T> clss, SQLiteDatabase myDb, T data, String[] fieldToUpdate);
     boolean insertDataOrUpdate(Class<T> clss, SQLiteDatabase myDb, T data, String[] fieldToUpdate, String where);
-
     boolean lastDataOnHistory(Class<T> clss, SQLiteDatabase myDb, T data);
+    T readLastData(Class<T> clss, SQLiteDatabase myDb);
 }
