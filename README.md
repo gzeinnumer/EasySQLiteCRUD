@@ -564,7 +564,7 @@ public class Table1 extends SQLiteLIB<Table1> {
 You can use it to insert new value. If value exists current data will be update and last data will insert to `History Table`.
 
 #
-### 14. Update And Backup Last Data
+### 14. Get Last Data
 
 > Simple Code
 ```java
