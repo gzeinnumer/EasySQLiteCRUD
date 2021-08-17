@@ -641,7 +641,7 @@ You can combine this library with [SQLiteBuilder](https://github.com/gzeinnumer/
 - **1.0.9**
   - Fixing Bug On Update
 - **2.0.0**
-  - Add Feature queryResult()
+  - Add Feature `queryResult()`
 - **2.0.5**
   - Fixing Bug On Update Kotlin
 - **2.0.6**
