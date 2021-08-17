@@ -173,6 +173,11 @@
                         android:id="@+id/btn_get_last_data"
                         style="@style/MyButtonContained"
                         android:text="Get Last Data" />
+
+                    <Button
+                        android:id="@+id/btn_insert_with_def_value"
+                        style="@style/MyButtonContained"
+                        android:text="Insert With Default Value" />
                 </LinearLayout>
             </androidx.core.widget.NestedScrollView>
         </LinearLayout>

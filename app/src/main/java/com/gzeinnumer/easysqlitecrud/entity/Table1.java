@@ -3,6 +3,7 @@ package com.gzeinnumer.easysqlitecrud.entity;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.gzeinnumer.esc.SQLiteLIB;
+import com.gzeinnumer.esc.helper.DefaultData;
 import com.gzeinnumer.esc.struck.HistoryTable;
 import com.gzeinnumer.esc.struck.JoinColumn;
 import com.gzeinnumer.esc.struck.SQLiteTable;
@@ -18,19 +19,22 @@ import java.util.List;
 @SQLiteTable(tableName = "table1")
 @HistoryTable(tableName = "table1_his")
 public class Table1 extends SQLiteLIB<Table1> {
+
     @PrimaryKeyTypeData
     private int id;                 // for Primary key
     // Default AutoIncrement true
     // @PrimaryKeyTypeData(autoGenerate = false) to disable
     @VarcharTypeData
+    @DefaultData(value = "1")
     private String name;            // for Varchar
     @DecimalTypeData
     private double rating;          // for Decimal/Real
     @TextTypeData
+    @DefaultData(value = "3")
     private String desc;            // for String
     @IntegerTypeData
     private int flag_active;        // for Integer
-    @TimeStampTypeData
+    @TimeStampTypeData(currentTime = true)
     private String created_at;      // for String
 
     // for join column from other table
@@ -245,6 +249,18 @@ public class Table1 extends SQLiteLIB<Table1> {
     //SELECT * FROM table1 ORDER BY id DESC LIMIT 1;
     public Table1 getLastData() {
         return readLastData(Table1.class, sqLiteDatabase);
+    }
+
+    //INSERT INTO table1 (name, rating, desc, flag_active, created_at) VALUES ('Zein', '10.0.', 'Android Programmer', '1', '12-12-2020');
+    public boolean insertWithDefValue() {
+        Table1 data = new Table1();
+//        data.setName("Zein");
+//        data.setRating(10.0);
+//        data.setDesc("Android Programmer");
+//        data.setFlag_active(1);
+//        data.setCreated_at("12-12-2020");
+
+        return insertData(Table1.class, sqLiteDatabase, data);
     }
 
     public int getId() {

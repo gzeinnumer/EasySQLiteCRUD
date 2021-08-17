@@ -12,7 +12,7 @@
 </h1>
 
 <div align="center">
-    <a><img src="https://img.shields.io/badge/Version-3.3.0-brightgreen.svg?style=flat"></a>
+    <a><img src="https://img.shields.io/badge/Version-3.3.1-brightgreen.svg?style=flat"></a>
     <a><img src="https://img.shields.io/badge/ID-gzeinnumer-blue.svg?style=flat"></a>
     <a><img src="https://img.shields.io/badge/Java-Suport-green?logo=java&style=flat"></a>
     <a><img src="https://img.shields.io/badge/Kotlin-Suport-green?logo=kotlin&style=flat"></a>
@@ -159,6 +159,10 @@ public class Table1 extends SQLiteLIB<Table1> {
     @TextTypeData       private String desc;         // for String
     @IntegerTypeData    private int flag_active;     // for Integer
     @TimeStampTypeData  private String created_at;   // for String
+                                                     // To use Current time
+                                                     // @TimeStampTypeData(currentTime = true)
+                                                     // work only on insertData(..,..,..) and if created_at is null
+                                                     // Format time yyyy-MM-dd HH:mm:ss
 
     // for join column from other table
     // @JoinColumn(withTable = "table2", columnName = "name")
@@ -653,6 +657,9 @@ You can combine this library with [SQLiteBuilder](https://github.com/gzeinnumer/
   - Insert And Backup To History
 - **3.3.0**
   - Read Last Data
+- **3.3.1**
+  - add feature DefaultData
+  - add feature DefaultValue on TimeStampTypeData
 
 ---
 # Contribution
