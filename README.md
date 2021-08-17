@@ -196,6 +196,18 @@ public class Table1 extends SQLiteLIB<Table1> {
   - `alias` = if your `first table` and `second table` haven't same `column name`. you can ignore it.
   - `alias` = if your `first table` and `second table` have same `column name`, you can use this as alias. example `SELECT table1.name, table2.name AS table2_name FROM table1 JOIN ... ;`.
     - make sure your `alias` same like your `variable name` and your `query` -> `AS table2_name`.
+- `@DefaultData` : to set Default value.
+  - Work only On `@VarcharTypeData`, `@TextTypeData`.
+  - example
+```java
+@VarcharTypeData
+@DefaultData(value = "default data")
+private String name;
+
+@TextTypeData
+@DefaultData(value = "default data")
+private String desc;
+```
 
 #
 ### 3. Insert
