@@ -647,7 +647,7 @@ You can combine this library with [SQLiteBuilder](https://github.com/gzeinnumer/
 - **2.0.6**
   - Remove Auto WHERE on All Query
 - **2.0.7**
-  - Add Feature queryCount()
+  - Add Feature `queryCount()`
 - **2.0.8**
   - Bug Fixing
 - **2.0.9**
@@ -670,8 +670,8 @@ You can combine this library with [SQLiteBuilder](https://github.com/gzeinnumer/
 - **3.3.0**
   - Read Last Data
 - **3.3.1**
-  - add feature DefaultData
-  - add feature DefaultValue on TimeStampTypeData
+  - add feature `@DefaultData`
+  - add feature DefaultValue(CurrentTime) on `@TimeStampTypeData`
 
 ---
 # Contribution
