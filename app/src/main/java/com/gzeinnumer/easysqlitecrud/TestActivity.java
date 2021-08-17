@@ -128,5 +128,10 @@ public class TestActivity extends AppCompatActivity {
             Table1 lastData = table1.getLastData();
             Log.d(TAG, "onCreate_18: " + lastData.getId());
         });
+        binding.btnInsertWithDefValue.setOnClickListener(view -> {
+            boolean istrue = table1.insertWithDefValue();
+            Log.d(TAG, "onCreate_19: " + istrue);
+            Toast.makeText(this, String.valueOf(istrue), Toast.LENGTH_SHORT).show();
+        });
     }
 }

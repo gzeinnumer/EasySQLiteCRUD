@@ -9,6 +9,7 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
+import com.gzeinnumer.esc.helper.DefaultData;
 import com.gzeinnumer.esc.helper.InterfaceDaoSQLite;
 import com.gzeinnumer.esc.struck.HistoryTable;
 import com.gzeinnumer.esc.struck.JoinColumn;
@@ -22,10 +23,13 @@ import com.gzeinnumer.esc.typeData.VarcharTypeData;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 public abstract class SQLiteLIB<T> implements InterfaceDaoSQLite<T> {
 
@@ -461,6 +465,7 @@ public abstract class SQLiteLIB<T> implements InterfaceDaoSQLite<T> {
         String field = "";
         for (Field f : clss.getDeclaredFields()) {
             f.setAccessible(true);
+            DefaultData defaultData = f.getAnnotation(DefaultData.class);
             PrimaryKeyTypeData primaryKeyTypeData = f.getAnnotation(PrimaryKeyTypeData.class);
             if (primaryKeyTypeData != null) {
                 if (!primaryKeyTypeData.autoGenerate()) {
@@ -469,8 +474,12 @@ public abstract class SQLiteLIB<T> implements InterfaceDaoSQLite<T> {
                     try {
                         if (f.get(data) != null)
                             value.add(String.valueOf(f.get(data)));
-                        else
-                            value.add(null);
+                        else {
+                            if (defaultData != null)
+                                value.add(defaultData.value());
+                            else
+                                value.add(null);
+                        }
                     } catch (IllegalAccessException e) {
                         e.printStackTrace();
                         logD("insertData: " + e.getMessage());
@@ -484,8 +493,9 @@ public abstract class SQLiteLIB<T> implements InterfaceDaoSQLite<T> {
                 try {
                     if (f.get(data) != null)
                         value.add(String.valueOf(f.get(data)));
-                    else
+                    else {
                         value.add(null);
+                    }
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                     logD("insertData: " + e.getMessage());
@@ -498,8 +508,12 @@ public abstract class SQLiteLIB<T> implements InterfaceDaoSQLite<T> {
                 try {
                     if (f.get(data) != null)
                         value.add(String.valueOf(f.get(data)));
-                    else
-                        value.add(null);
+                    else {
+                        if (defaultData != null)
+                            value.add(defaultData.value());
+                        else
+                            value.add(null);
+                    }
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                     logD("insertData: " + e.getMessage());
@@ -512,8 +526,12 @@ public abstract class SQLiteLIB<T> implements InterfaceDaoSQLite<T> {
                 try {
                     if (f.get(data) != null)
                         value.add(String.valueOf(f.get(data)));
-                    else
-                        value.add(null);
+                    else {
+                        if (timestamp.currentTime())
+                            value.add(getCurrentTime());
+                        else
+                            value.add(null);
+                    }
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                     logD("insertData: " + e.getMessage());
@@ -526,8 +544,9 @@ public abstract class SQLiteLIB<T> implements InterfaceDaoSQLite<T> {
                 try {
                     if (f.get(data) != null)
                         value.add(String.valueOf(f.get(data)));
-                    else
+                    else {
                         value.add(null);
+                    }
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                     logD("insertData: " + e.getMessage());
@@ -540,8 +559,12 @@ public abstract class SQLiteLIB<T> implements InterfaceDaoSQLite<T> {
                 try {
                     if (f.get(data) != null)
                         value.add(String.valueOf(f.get(data)));
-                    else
-                        value.add(null);
+                    else{
+                        if (defaultData != null)
+                            value.add(defaultData.value());
+                        else
+                            value.add(null);
+                    }
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                     logD("insertData: " + e.getMessage());
@@ -1789,7 +1812,7 @@ public abstract class SQLiteLIB<T> implements InterfaceDaoSQLite<T> {
             PrimaryKeyTypeData primaryKeyTypeData = f.getAnnotation(PrimaryKeyTypeData.class);
             if (primaryKeyTypeData != null) {
                 field = press(f.toString());
-                pKey = field.replaceAll(",","");
+                pKey = field.replaceAll(",", "");
                 query.append(tableName).append(".").append(field);
             }
             IntegerTypeData _int = f.getAnnotation(IntegerTypeData.class);
@@ -1825,7 +1848,7 @@ public abstract class SQLiteLIB<T> implements InterfaceDaoSQLite<T> {
 
         query.append(" FROM ").append(tableName);
 
-        query.append(" ORDER BY "+pKey+" DESC LIMIT 1;");
+        query.append(" ORDER BY " + pKey + " DESC LIMIT 1;");
 
         Cursor cursor;
 
@@ -1904,5 +1927,11 @@ public abstract class SQLiteLIB<T> implements InterfaceDaoSQLite<T> {
         int x = strTemp.indexOf(toRemove);
         if (x != -1) a = a.substring(0, x) + a.substring(x + toRemove.length());
         return a;
+    }
+
+    public String getCurrentTime() {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());//dd/MM/yyyy
+        Date now = new Date();
+        return format.format(now);
     }
 }

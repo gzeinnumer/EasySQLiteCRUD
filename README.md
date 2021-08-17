@@ -12,7 +12,7 @@
 </h1>
 
 <div align="center">
-    <a><img src="https://img.shields.io/badge/Version-3.3.0-brightgreen.svg?style=flat"></a>
+    <a><img src="https://img.shields.io/badge/Version-3.3.1-brightgreen.svg?style=flat"></a>
     <a><img src="https://img.shields.io/badge/ID-gzeinnumer-blue.svg?style=flat"></a>
     <a><img src="https://img.shields.io/badge/Java-Suport-green?logo=java&style=flat"></a>
     <a><img src="https://img.shields.io/badge/Kotlin-Suport-green?logo=kotlin&style=flat"></a>
@@ -159,6 +159,10 @@ public class Table1 extends SQLiteLIB<Table1> {
     @TextTypeData       private String desc;         // for String
     @IntegerTypeData    private int flag_active;     // for Integer
     @TimeStampTypeData  private String created_at;   // for String
+                                                     // To use Current time
+                                                     // @TimeStampTypeData(currentTime = true)
+                                                     // work only on insertData(..,..,..) and if created_at is null
+                                                     // Format time yyyy-MM-dd HH:mm:ss
 
     // for join column from other table
     // @JoinColumn(withTable = "table2", columnName = "name")
@@ -192,6 +196,18 @@ public class Table1 extends SQLiteLIB<Table1> {
   - `alias` = if your `first table` and `second table` haven't same `column name`. you can ignore it.
   - `alias` = if your `first table` and `second table` have same `column name`, you can use this as alias. example `SELECT table1.name, table2.name AS table2_name FROM table1 JOIN ... ;`.
     - make sure your `alias` same like your `variable name` and your `query` -> `AS table2_name`.
+- `@DefaultData` : to set Default value.
+  - Work only On `@VarcharTypeData`, `@TextTypeData`.
+  - example
+```java
+@VarcharTypeData
+@DefaultData(value = "default data")
+private String name;
+
+@TextTypeData
+@DefaultData(value = "default data")
+private String desc;
+```
 
 #
 ### 3. Insert
@@ -625,13 +641,13 @@ You can combine this library with [SQLiteBuilder](https://github.com/gzeinnumer/
 - **1.0.9**
   - Fixing Bug On Update
 - **2.0.0**
-  - Add Feature queryResult()
+  - Add Feature `queryResult()`
 - **2.0.5**
   - Fixing Bug On Update Kotlin
 - **2.0.6**
   - Remove Auto WHERE on All Query
 - **2.0.7**
-  - Add Feature queryCount()
+  - Add Feature `queryCount()`
 - **2.0.8**
   - Bug Fixing
 - **2.0.9**
@@ -653,6 +669,9 @@ You can combine this library with [SQLiteBuilder](https://github.com/gzeinnumer/
   - Insert And Backup To History
 - **3.3.0**
   - Read Last Data
+- **3.3.1**
+  - add feature `@DefaultData`
+  - add feature DefaultValue(CurrentTime) on `@TimeStampTypeData`
 
 ---
 # Contribution
