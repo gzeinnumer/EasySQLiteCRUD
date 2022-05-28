@@ -12,10 +12,10 @@ import com.google.gson.JsonElement;
 import com.gzeinnumer.esc.helper.DefaultData;
 import com.gzeinnumer.esc.helper.InterfaceDaoSQLite;
 import com.gzeinnumer.esc.struck.HistoryTable;
-import com.gzeinnumer.esc.struck.JoinColumn;
 import com.gzeinnumer.esc.struck.SQLiteTable;
 import com.gzeinnumer.esc.typeData.DecimalTypeData;
 import com.gzeinnumer.esc.typeData.IntegerTypeData;
+import com.gzeinnumer.esc.typeData.OtherTableData;
 import com.gzeinnumer.esc.typeData.PrimaryKeyTypeData;
 import com.gzeinnumer.esc.typeData.TextTypeData;
 import com.gzeinnumer.esc.typeData.TimeStampTypeData;
@@ -260,6 +260,9 @@ public abstract class SQLiteLIB<T> implements InterfaceDaoSQLite<T> {
         Cursor cursor;
 
         cursor = myDb.rawQuery(query, null);
+        String[] temp = query.split("FROM");
+        String querySelect = temp[0];
+        querySelect= querySelect.replace("SELECT", "");
 
         String field = "";
 
@@ -271,53 +274,54 @@ public abstract class SQLiteLIB<T> implements InterfaceDaoSQLite<T> {
                     PrimaryKeyTypeData primaryKeyTypeData = f.getAnnotation(PrimaryKeyTypeData.class);
                     if (primaryKeyTypeData != null) {
                         field = removeLast(press(f.toString()));
-                        if (query.contains(field) || query.contains(tableName + ".*"))
+                        if (querySelect.contains(field) || query.contains(tableName + ".*")|| query.contains(tableName + "."+field))
                             hashMap.put(field, cursor.getInt(cursor.getColumnIndex(field)));
                     }
                     IntegerTypeData _int = f.getAnnotation(IntegerTypeData.class);
                     if (_int != null) {
                         field = removeLast(press(f.toString()));
-                        if (query.contains(field) || query.contains(tableName + ".*"))
+                        if (querySelect.contains(field) || query.contains(tableName + ".*")|| query.contains(tableName + "."+field))
                             hashMap.put(field, cursor.getInt(cursor.getColumnIndex(field)));
                     }
                     VarcharTypeData varcharTypeData = f.getAnnotation(VarcharTypeData.class);
                     if (varcharTypeData != null) {
                         field = removeLast(press(f.toString()));
-                        if (query.contains(field) || query.contains(tableName + ".*"))
+                        if (querySelect.contains(field) || query.contains(tableName + ".*")|| query.contains(tableName + "."+field))
                             hashMap.put(field, cursor.getString(cursor.getColumnIndex(field)));
                     }
                     TimeStampTypeData timestamp = f.getAnnotation(TimeStampTypeData.class);
                     if (timestamp != null) {
                         field = removeLast(press(f.toString()));
-                        if (query.contains(field) || query.contains(tableName + ".*"))
+                        if (querySelect.contains(field) || query.contains(tableName + ".*")|| query.contains(tableName + "."+field))
                             hashMap.put(field, cursor.getString(cursor.getColumnIndex(field)));
                     }
                     DecimalTypeData decimalTypeData = f.getAnnotation(DecimalTypeData.class);
                     if (decimalTypeData != null) {
                         field = removeLast(press(f.toString()));
-                        if (query.contains(field) || query.contains(tableName + ".*"))
+                        if (querySelect.contains(field) || query.contains(tableName + ".*")|| query.contains(tableName + "."+field))
                             hashMap.put(field, cursor.getDouble(cursor.getColumnIndex(field)));
                     }
                     TextTypeData textTypeData = f.getAnnotation(TextTypeData.class);
                     if (textTypeData != null) {
                         field = removeLast(press(f.toString()));
-                        if (query.contains(field) || query.contains(tableName + ".*"))
+                        if (querySelect.contains(field) || query.contains(tableName + ".*")|| query.contains(tableName + "."+field))
                             hashMap.put(field, cursor.getString(cursor.getColumnIndex(field)));
                     }
-                    JoinColumn joinColumn = f.getAnnotation(JoinColumn.class);
+//                    OtherTableData otherTableData = f.getAnnotation(OtherTableData.class);
+//                    if (otherTableData != null) {
+//                        field = removeLast(press(f.toString()));
+//                        if (querySelect.contains(field))
+//                            hashMap.put(field, cursor.getString(cursor.getColumnIndex(field)));
+//                    }
+                    OtherTableData joinColumn = f.getAnnotation(OtherTableData.class);
                     if (joinColumn != null) {
                         String withTable = joinColumn.withTable();
-                        if (query.contains(withTable)) {
-                            String columnName = joinColumn.columnName();
+
+                        if (querySelect.contains(withTable) && querySelect.contains(field)) {
+                            String columnName = removeLast(press(f.toString()));
                             String alias = joinColumn.alias();
-
                             String modelName = removeLast(press(f.toString()));
-
-                            if (alias.length() > 0) {
-                                hashMap.put(modelName, cursor.getString(cursor.getColumnIndex(alias)));
-                            } else {
-                                hashMap.put(modelName, cursor.getString(cursor.getColumnIndex(columnName)));
-                            }
+                            hashMap.put(modelName, cursor.getString(cursor.getColumnIndex(alias)));
                         }
                     }
                 }

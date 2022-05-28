@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.gzeinnumer.easysqlitecrud.databinding.ActivityTestBinding;
 import com.gzeinnumer.easysqlitecrud.entity.Table1;
+import com.gzeinnumer.easysqlitecrud.entity.Table2;
 import com.gzeinnumer.easysqlitecrud.helper.DBInstance;
 
 import java.util.List;
@@ -25,9 +26,27 @@ public class TestActivity extends AppCompatActivity {
         binding = ActivityTestBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        String query = "SELECT table1.id, table2.name FROM table1 JOIN table2 ON table2.id_table1 = table1.id;";
+
+        String[] temp = query.split("FROM");
+        query = temp[0];
+        Log.d(TAG, "onCreat_e: "+query.replace("SELECT", ""));
+
         SQLiteDatabase sqLiteDatabase = DBInstance.getDataBase(getApplicationContext());
 
         Table1 table1 = new Table1(sqLiteDatabase);
+        table1.insertOrIgnoreForTesting(1);
+        table1.insertOrIgnoreForTesting(2);
+        table1.insertOrIgnoreForTesting(3);
+        table1.insertOrIgnoreForTesting(4);
+        table1.insertOrIgnoreForTesting(5);
+
+        Table2 table2 = new Table2(sqLiteDatabase);
+        table2.insertOrIgnoreForTesting(1);
+        table2.insertOrIgnoreForTesting(2);
+        table2.insertOrIgnoreForTesting(3);
+        table2.insertOrIgnoreForTesting(4);
+        table2.insertOrIgnoreForTesting(5);
 
         binding.btnInsert.setOnClickListener(view -> {
             boolean istrue = table1.insert();
@@ -71,11 +90,15 @@ public class TestActivity extends AppCompatActivity {
             Log.d(TAG, "onCreate_8: " + read.size());
             Toast.makeText(this, read.get(0).getName() + "\n" + read.size(), Toast.LENGTH_SHORT).show();
         });
+        binding.btnT1T2.setOnClickListener(view -> {
+            List<Table1> readT1All = table1.readAll();
+            Toast.makeText(getApplicationContext(), "table 1" + readT1All.toString(), Toast.LENGTH_SHORT).show();
+            List<Table2> readT2All = table2.readAll();
+            Toast.makeText(getApplicationContext(), "table 2" + readT2All.toString(), Toast.LENGTH_SHORT).show();
+        });
         binding.btnQuery.setOnClickListener(view -> {
             List<Table1> read = table1.query();
-            Log.d(TAG, "onCreate_9: " + read.get(0).getName());
-            Log.d(TAG, "onCreate_9: " + read.get(0).getTable2_name());
-            Log.d(TAG, "onCreate_9: " + read.size());
+            Log.d(TAG, "onCreate_9: " + read.get(0).toString());
             Toast.makeText(this, read.get(0).getName() + "\n" + read.size(), Toast.LENGTH_SHORT).show();
         });
         binding.btnQueryResultUpdate.setOnClickListener(view -> {
@@ -100,7 +123,7 @@ public class TestActivity extends AppCompatActivity {
             Toast.makeText(this, String.valueOf(read), Toast.LENGTH_SHORT).show();
         });
         binding.btnInsertOrIgnore.setOnClickListener(view -> {
-            boolean istrue = table1.insertOrIgnore();
+            boolean istrue = table1.insertOrIgnoreForTesting();
             Log.d(TAG, "onCreate_13: " + istrue);
             Toast.makeText(this, String.valueOf(istrue), Toast.LENGTH_SHORT).show();
         });

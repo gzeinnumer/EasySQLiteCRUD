@@ -5,17 +5,28 @@ import android.database.sqlite.SQLiteDatabase;
 import com.gzeinnumer.esc.SQLiteLIB;
 import com.gzeinnumer.esc.helper.DefaultData;
 import com.gzeinnumer.esc.struck.HistoryTable;
-import com.gzeinnumer.esc.struck.JoinColumn;
+//import com.gzeinnumer.esc.struck.JoinColumn;
 import com.gzeinnumer.esc.struck.SQLiteTable;
 import com.gzeinnumer.esc.typeData.DecimalTypeData;
 import com.gzeinnumer.esc.typeData.IntegerTypeData;
+import com.gzeinnumer.esc.typeData.OtherTableData;
 import com.gzeinnumer.esc.typeData.PrimaryKeyTypeData;
 import com.gzeinnumer.esc.typeData.TextTypeData;
 import com.gzeinnumer.esc.typeData.TimeStampTypeData;
 import com.gzeinnumer.esc.typeData.VarcharTypeData;
+import com.gzeinnumer.sb.struct.CreateTableQuery;
 
 import java.util.List;
 
+@CreateTableQuery(
+        query = "CREATE TABLE table1 (" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "name TEXT, " +
+                "rating REAL, " +
+                "desc TEXT, " +
+                "flag_active INTEGER, " +
+                "created_at TEXT)"
+)
 @SQLiteTable(tableName = "table1")
 @HistoryTable(tableName = "table1_his")
 public class Table1 extends SQLiteLIB<Table1> {
@@ -36,10 +47,10 @@ public class Table1 extends SQLiteLIB<Table1> {
     private int flag_active;        // for Integer
     @TimeStampTypeData(currentTime = true)
     private String created_at;      // for String
+    @OtherTableData(withTable = "table2" , alias = "id_table1")
+    private String id_table1;            // for Varchar
 
-    // for join column from other table
-    // @JoinColumn(withTable = "table2", columnName = "name")
-    @JoinColumn(withTable = "table2", columnName = "name", alias = "table2_name")
+    @OtherTableData(withTable = "table2", alias = "table2_name")
     private String table2_name;
 
     private SQLiteDatabase sqLiteDatabase;
@@ -129,6 +140,11 @@ public class Table1 extends SQLiteLIB<Table1> {
         return readData(Table1.class, sqLiteDatabase, condition);
     }
 
+    //type 2 SELECT * FROM table1;
+    public List<Table1> readAll() {
+        return readData(Table1.class, sqLiteDatabase);
+    }
+
     //type 1 SELECT * FROM table1 LIMIT 1;
     public Table1 read3() {
         return readSingleData(Table1.class, sqLiteDatabase);
@@ -145,7 +161,7 @@ public class Table1 extends SQLiteLIB<Table1> {
     }
 
     public List<Table1> query(){
-        String query ="SELECT table1.*, table2.name AS table2_name FROM table1 JOIN table2 ON table2.id_table1 = table1.id;";
+        String query ="SELECT table1.*, table2.id_table1 FROM table1 JOIN table2 ON table2.id_table1 = table1.id;";
         return queryData(Table1.class, sqLiteDatabase, query);
     }
 
@@ -155,7 +171,7 @@ public class Table1 extends SQLiteLIB<Table1> {
     }
 
     //INSERT INTO table1 (id, name, rating, desc, flag_active, created_at) VALUES (6,'Zein', '10.0.', 'Android Programmer', '1', '12-12-2020');
-    public boolean insertOrIgnore() {
+    public boolean insertOrIgnoreForTesting() {
         Table1 data = new Table1();
         data.setId(6); //important line, please set your id first
         data.setName("Zein");
@@ -317,5 +333,40 @@ public class Table1 extends SQLiteLIB<Table1> {
 
     public void setTable2_name(String table2_name) {
         this.table2_name = table2_name;
+    }
+
+    public String getId_table1() {
+        return id_table1;
+    }
+
+    public void setId_table1(String id_table1) {
+        this.id_table1 = id_table1;
+    }
+
+    public boolean insertOrIgnoreForTesting(int id) {
+        Table1 data = new Table1();
+        data.setId(id); //important line, please set your id first
+        data.setName("Zein");
+        data.setRating(10.0);
+        data.setDesc("Android Programmer");
+        data.setFlag_active(1);
+        data.setCreated_at("12-12-2020");
+
+        return insertDataOrIgnore(Table1.class, sqLiteDatabase, data);
+    }
+
+    @Override
+    public String toString() {
+        return "Table1{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", rating=" + rating +
+                ", desc='" + desc + '\'' +
+                ", flag_active=" + flag_active +
+                ", created_at='" + created_at + '\'' +
+                ", id_table1='" + id_table1 + '\'' +
+                ", table2_name='" + table2_name + '\'' +
+                ", sqLiteDatabase=" + sqLiteDatabase +
+                '}';
     }
 }

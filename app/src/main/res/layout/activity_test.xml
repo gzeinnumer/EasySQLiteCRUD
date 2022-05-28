@@ -104,6 +104,12 @@
                             style="@style/MyButtonContained"
                             android:layout_marginLeft="@dimen/def_margin"
                             android:text="Read(All)" />
+
+                        <Button
+                            android:id="@+id/btn_t1_t2"
+                            style="@style/MyButtonContained"
+                            android:layout_marginLeft="@dimen/def_margin"
+                            android:text="Read(T1T2)" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -120,6 +126,7 @@
                             style="@style/MyButtonContained"
                             android:layout_marginLeft="@dimen/def_margin"
                             android:text="Query" />
+
                     </LinearLayout>
 
                     <Button

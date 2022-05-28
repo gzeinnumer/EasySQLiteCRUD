@@ -12,7 +12,7 @@
 </h1>
 
 <div align="center">
-    <a><img src="https://img.shields.io/badge/Version-3.3.1-brightgreen.svg?style=flat"></a>
+    <a><img src="https://img.shields.io/badge/Version-3.3.2-brightgreen.svg?style=flat"></a>
     <a><img src="https://img.shields.io/badge/ID-gzeinnumer-blue.svg?style=flat"></a>
     <a><img src="https://img.shields.io/badge/Java-Suport-green?logo=java&style=flat"></a>
     <a><img src="https://img.shields.io/badge/Kotlin-Suport-green?logo=kotlin&style=flat"></a>
@@ -147,7 +147,7 @@ public class Table1 extends SQLiteLIB<Table1> {
 > Simple Code
 
 Declare Entity. You can make it more simple with this `Annotation`
-- `@PrimaryKeyTypeData` or `@VarcharTypeData` or `@IntegerTypeData` or `@TimeStampTypeData` or `@TextTypeData` or `@DoubleTypeData` or `@JoinColumnTypeData`
+- `@PrimaryKeyTypeData` or `@VarcharTypeData` or `@IntegerTypeData` or `@TimeStampTypeData` or `@TextTypeData` or `@DoubleTypeData` or `@OtherTableData`
 ```java
 @SQLiteTable(tableName = "table1")
 public class Table1 extends SQLiteLIB<Table1> {
@@ -164,10 +164,8 @@ public class Table1 extends SQLiteLIB<Table1> {
                                                      // work only on insertData(..,..,..) and if created_at is null
                                                      // Format time yyyy-MM-dd HH:mm:ss
 
-    // for join column from other table
-    // @JoinColumn(withTable = "table2", columnName = "name")
-    @JoinColumn(withTable = "table2", columnName = "name", alias = "table2_name")
-    private String table2_name;
+    @OtherTableData(withTable = "table2", alias = "id_table1")
+    private String id_table1;
 
     private SQLiteDatabase sqLiteDatabase;
 
@@ -190,12 +188,9 @@ public class Table1 extends SQLiteLIB<Table1> {
 - `@TimeStampTypeData` : Your variable type should `String`.
 - `@TextTypeData` : Your variable type should `String`.
 - `@DoubleTypeData` : Your variable type should `double`.
-- `@JoinColumnTypeData` :
+- `@OtherTableData` :
   - `withTable` = other table to join with current table.
-  - `columnName` = realname on other table.
-  - `alias` = if your `first table` and `second table` haven't same `column name`. you can ignore it.
-  - `alias` = if your `first table` and `second table` have same `column name`, you can use this as alias. example `SELECT table1.name, table2.name AS table2_name FROM table1 JOIN ... ;`.
-    - make sure your `alias` same like your `variable name` and your `query` -> `AS table2_name`.
+  - `alias` = columnname.
 - `@DefaultData` : to set Default value.
   - Work only On `@VarcharTypeData`, `@TextTypeData`.
   - example
@@ -367,13 +362,13 @@ public class Table1 extends SQLiteLIB<Table1> {
     ...
 
     //dont forget to write this to
-    @JoinColumn(withTable = "table2", columnName = "name", alias = "table2_name")
-    private String table2_name;
+    @OtherTableData(withTable = "table2", alias = "id_table1")
+    private String id_table1;
 
     ...
 
     public List<Table1> query(){
-        String query ="SELECT table1.*, table2.name AS table2_name FROM table1 JOIN table2 ON table2.id_table1 = table1.id;";
+        String query ="SELECT table1.*, table2.id_table1 FROM table1 JOIN table2 ON table2.id_table1 = table1.id;";
         return queryData(Table1.class, sqLiteDatabase, query);
     }
 }
@@ -672,6 +667,9 @@ You can combine this library with [SQLiteBuilder](https://github.com/gzeinnumer/
 - **3.3.1**
   - add feature `@DefaultData`
   - add feature DefaultValue(CurrentTime) on `@TimeStampTypeData`
+- **3.3.2**
+  - remove feature `@JoinColumn`
+  - add feature `@OtherTableData`
 
 ---
 # Contribution
